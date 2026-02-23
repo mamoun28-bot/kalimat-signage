@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>شاشة مواقيت الصلاة - الشارقة</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --gold1:#b8891a;
+  --gold2:#f6e08d;
+  --gold3:#d4af37;
+  --gold4:#8a6512;
+  --ink:#0b1220;
+}
+html,body{height:100%;}
+body{
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  font-family:'Amiri', serif;
+  background:url("bg-ramadan.svg") center/cover no-repeat fixed;
+  color:var(--ink);
+}
+
+/* subtle gold frame */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  border:6px solid transparent;
+  border-image: linear-gradient(135deg,var(--gold1),var(--gold2),var(--gold3),var(--gold4)) 1;
+  pointer-events:none;
+}
+
+.wrap{
+  padding:24px 30px;
+  height:100vh;
+  display:grid;
+  grid-template-rows:auto auto auto 1fr auto;
+  gap:14px;
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.brand img{
+  height:70px;
+  background:#fff;
+  border-radius:12px;
+  padding:6px;
+  box-shadow:0 10px 26px rgba(0,0,0,.10);
+}
+.brand .t1{font-size:26px;font-weight:700;line-height:1.1}
+.brand .t2{font-size:16px;opacity:.85;margin-top:6px}
+
+.clock{
+  font-size:56px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+/* DATE BAR + RAMADAN BADGE */
+.datebar{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  padding:10px 18px;
+  border-radius:14px;
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(212,175,55,.25);
+  box-shadow:0 10px 26px rgba(0,0,0,.08);
+  font-size:20px;
+  font-weight:700;
+}
+.datebar .sep{opacity:.5}
+.badge{
+  display:none;
+  align-items:center;
+  gap:8px;
+  padding:6px 12px;
+  border-radius:999px;
+  background: linear-gradient(135deg,var(--gold1),var(--gold2),var(--gold3),var(--gold4));
+  color:#3a2c00;
+  border:1px solid rgba(255,255,255,.40);
+  box-shadow:0 6px 16px rgba(0,0,0,.10);
+  font-size:18px;
+  font-weight:700;
+  white-space:nowrap;
+}
+.badge .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.65);}
+
+/* GOLD BANNER (official) */
+.gold-banner{
+  position:relative;
+  height:78px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 26px;
+  border-radius:16px;
+  background: linear-gradient(135deg,var(--gold1),var(--gold2),var(--gold3),var(--gold4));
+  color:#3a2c00;
+  border:1px solid rgba(255,255,255,.40);
+  box-shadow:0 10px 26px rgba(0,0,0,.14);
+  overflow:hidden;
+}
+.gold-banner .text{
+  font-size:clamp(20px, 2.0vw, 30px);
+  font-weight:700;
+  line-height:1.25;
+  text-align:center;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:100%;
+}
+.gold-banner::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-60%;
+  width:40%;
+  height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,.65), transparent);
+  transform:skewX(-25deg);
+  animation:shine 4.8s infinite;
+}
+@keyframes shine{
+  0%{left:-60%;}
+  55%{left:135%;}
+  100%{left:135%;}
+}
+
+/* content */
+.panel{
+  background:rgba(255,255,255,.95);
+  border-radius:18px;
+  padding:18px;
+  border:1px solid rgba(212,175,55,.18);
+  box-shadow:0 12px 30px rgba(0,0,0,.08);
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.card{
+  background:#fff;
+  border-radius:14px;
+  padding:14px 10px;
+  text-align:center;
+  border:1px solid rgba(0,0,0,.06);
+}
+.card .name{font-size:22px;font-weight:700;margin-bottom:4px}
+.card .time{font-size:22px;font-weight:700}
+
+.bigRow{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-top:16px;
+}
+.big{
+  border-radius:16px;
+  padding:16px 18px;
+  border:1px solid rgba(0,0,0,.06);
+}
+.big.next{background:linear-gradient(135deg, rgba(139,197,63,.20), rgba(42,167,223,.12));}
+.big.iftar{background:linear-gradient(135deg, rgba(230,122,179,.16), rgba(139,197,63,.10));}
+
+.big .head{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:20px;
+  font-weight:700;
+}
+.big .sub{
+  margin-top:6px;
+  font-size:18px;
+  font-weight:700;
+  opacity:.95;
+}
+.count{
+  margin-top:10px;
+  font-size:52px;
+  font-weight:700;
+  text-align:center;
+  letter-spacing:1px;
+}
+
+footer{
+  text-align:center;
+  font-size:14px;
+  opacity:.85;
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <img src="logo.png" alt="Kalimat"/>
+      <div>
+        <div class="t1">مواقيت الصلاة</div>
+        <div class="t2">إمارة الشارقة</div>
+      </div>
+    </div>
+    <div id="clock" class="clock">--:--</div>
+  </header>
+
+  <div class="datebar">
+    <span id="greg">--</span>
+    <span class="sep">|</span>
+    <span id="hijri">--</span>
+    <span id="ramadanBadge" class="badge"><span class="dot"></span><span id="ramadanText">--</span></span>
+  </div>
+
+  <div class="gold-banner">
+    <div class="text">مركز كلمات للتأهيل وعلاج النطق يتمنى لكم صياماً مقبولاً وإفطاراً هنيئاً 🌙</div>
+  </div>
+
+  <div class="panel">
+    <div class="grid" id="timesGrid"></div>
+
+    <div class="bigRow">
+      <div class="big next">
+        <div class="head"><span>الصلاة القادمة</span><span id="nextName">--</span></div>
+        <div class="sub">الوقت: <span id="nextAt">--</span></div>
+        <div class="count" id="nextCountdown">--:--:--</div>
+      </div>
+
+      <div class="big iftar">
+        <div class="head"><span>وقت الإفطار</span><span>المغرب</span></div>
+        <div class="sub">الوقت: <span id="maghribAt">--</span></div>
+        <div class="count" id="iftarCountdown">--:--:--</div>
+      </div>
+    </div>
+  </div>
+
+  <footer id="status">يتم تحديث المواقيت تلقائياً</footer>
+
+</div>
+
+<script>
+const PRAYERS=[
+  {key:"Fajr",ar:"الفجر"},
+  {key:"Sunrise",ar:"الشروق"},
+  {key:"Dhuhr",ar:"الظهر"},
+  {key:"Asr",ar:"العصر"},
+  {key:"Maghrib",ar:"المغرب"},
+  {key:"Isha",ar:"العشاء"}
+];
+
+const el=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,"0");
+
+function formatTime12(hhmm){
+  let [h,m]=hhmm.split(":").map(Number);
+  let ampm=h>=12?"م":"ص";
+  let h12=((h+11)%12)+1;
+  return `${h12}:${pad(m)} ${ampm}`;
+}
+
+function tickClock(){
+  let now=new Date();
+  let h=now.getHours(),m=now.getMinutes();
+  let ampm=h>=12?"م":"ص";
+  let h12=((h+11)%12)+1;
+  el("clock").textContent=`${h12}:${pad(m)} ${ampm}`;
+}
+setInterval(tickClock,1000); tickClock();
+
+function updateDates(){
+  let now=new Date();
+  let greg=now.toLocaleDateString("ar-AE",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+  el("greg").textContent = greg;
+
+  let hijri="—";
+  try{
+    hijri = new Intl.DateTimeFormat("ar-SA-u-ca-islamic",{day:"numeric",month:"long",year:"numeric"}).format(now);
+  }catch(e){
+    hijri="التاريخ الهجري غير متاح";
+  }
+  el("hijri").textContent = hijri;
+
+  const badge = el("ramadanBadge");
+  const ramText = el("ramadanText");
+  if(String(hijri).includes("رمضان")){
+    const m = String(hijri).match(/\d+/);
+    const day = m ? parseInt(m[0],10) : null;
+    ramText.textContent = day ? `اليوم ${day} من رمضان` : "رمضان";
+    badge.style.display="inline-flex";
+  } else {
+    badge.style.display="none";
+  }
+}
+updateDates();
+setInterval(updateDates, 60*60*1000);
+
+async function fetchTimings(){
+  const url="https://api.aladhan.com/v1/timingsByCity?city=Sharjah&country=United%20Arab%20Emirates&method=8";
+  const r=await fetch(url, {cache:"no-store"});
+  if(!r.ok) throw new Error("Network");
+  const j=await r.json();
+  return j.data.timings;
+}
+
+function parseToday(t){
+  let now=new Date();
+  let [h,m]=t.split(":").map(Number);
+  return new Date(now.getFullYear(),now.getMonth(),now.getDate(),h,m);
+}
+
+function startCountdown(target,output){
+  function tick(){
+    let diff=target-new Date();
+    if(diff<0) diff=0;
+    let s=Math.floor(diff/1000);
+    output.textContent=`${pad(Math.floor(s/3600))}:${pad(Math.floor((s%3600)/60))}:${pad(s%60)}`;
+  }
+  tick(); setInterval(tick,1000);
+}
+
+async function init(){
+  try{
+    el("status").textContent = "جاري تحميل مواقيت الصلاة…";
+    let timings=await fetchTimings();
+
+    let grid=el("timesGrid");
+    grid.innerHTML="";
+    PRAYERS.forEach(p=>{
+      let t=timings[p.key].slice(0,5);
+      let div=document.createElement("div");
+      div.className="card";
+      div.innerHTML=`<div class="name">${p.ar}</div><div class="time">${formatTime12(t)}</div>`;
+      grid.appendChild(div);
+    });
+
+    let now=new Date();
+    let next=null;
+    for(let p of PRAYERS.filter(x=>x.key!=="Sunrise")){
+      let t=parseToday(timings[p.key].slice(0,5));
+      if(t>now){ next={name:p.ar,time:t}; break; }
+    }
+    if(!next){
+      let fajr=parseToday(timings["Fajr"].slice(0,5));
+      fajr.setDate(fajr.getDate()+1);
+      next={name:"الفجر",time:fajr};
+    }
+
+    el("nextName").textContent=next.name;
+    el("nextAt").textContent=formatTime12(`${pad(next.time.getHours())}:${pad(next.time.getMinutes())}`);
+    startCountdown(next.time, el("nextCountdown"));
+
+    let maghrib=parseToday(timings["Maghrib"].slice(0,5));
+    el("maghribAt").textContent=formatTime12(`${pad(maghrib.getHours())}:${pad(maghrib.getMinutes())}`);
+    startCountdown(maghrib, el("iftarCountdown"));
+
+    el("status").textContent = "تم تحديث المواقيت تلقائياً ✅";
+  }catch(e){
+    console.error(e);
+    el("status").textContent = "تعذّر تحميل المواقيت. تأكد من الإنترنت ثم Ctrl+F5";
+  }
+}
+init();
+</script>
+</body>
+</html>
