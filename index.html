@@ -8,136 +8,208 @@
 
 <style>
 :root{
---gold1:#b8891a;
---gold2:#f6e08d;
---gold3:#d4af37;
---gold4:#8a6512;
---soft-bg:#f7f9fc;
---ink:#1d2430;
+  --gold1:#b8891a;
+  --gold2:#f6e08d;
+  --gold3:#d4af37;
+  --gold4:#8a6512;
+  --soft-bg:#f7f9fc;
+  --ink:#1d2430;
 }
 
+*{box-sizing:border-box;}
+
 body{
-margin:0;
-font-family:'Amiri',serif;
-background:var(--soft-bg);
-color:var(--ink);
-overflow:hidden;
+  margin:0;
+  font-family:'Amiri',serif;
+  background:var(--soft-bg);
+  color:var(--ink);
+  overflow:hidden;
 }
 
 /* إطار ذهبي رسمي */
 body::before{
-content:"";
-position:fixed;
-inset:0;
-border:6px solid transparent;
-border-image:linear-gradient(135deg,var(--gold1),var(--gold2),var(--gold3),var(--gold4)) 1;
-pointer-events:none;
+  content:"";
+  position:fixed;
+  inset:0;
+  border:6px solid transparent;
+  border-image:linear-gradient(135deg,var(--gold1),var(--gold2),var(--gold3),var(--gold4)) 1;
+  pointer-events:none;
 }
 
 .wrap{
-padding:30px;
-height:100vh;
-display:grid;
-grid-template-rows:auto auto auto 1fr;
-gap:18px;
+  padding:40px 40px 30px 40px;
+  min-height:100vh;
+  display:grid;
+  grid-template-rows:auto auto auto 1fr;
+  gap:22px;
 }
 
-/* الهيدر */
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
+/* Top Bar */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+}
+
+.topbar .right{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.logo{
+  height:64px;
+  background:#fff;
+  padding:6px;
+  border-radius:12px;
+  box-shadow:0 8px 18px rgba(0,0,0,.08);
+}
+
+.title{
+  font-size:28px;
+  font-weight:700;
 }
 
 .clock{
-font-size:64px;
-font-weight:700;
+  font-size:56px;
+  font-weight:700;
+  letter-spacing:1px;
+  opacity:.92;
+  white-space:nowrap;
 }
 
-/* التاريخ */
+/* التاريخ + شارة رمضان */
 .datebar{
-text-align:center;
-font-size:24px;
-font-weight:700;
-background:white;
-padding:12px;
-border-radius:16px;
-box-shadow:0 8px 18px rgba(0,0,0,.05);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  background:white;
+  padding:12px 16px;
+  border-radius:16px;
+  box-shadow:0 8px 18px rgba(0,0,0,.05);
+  font-size:22px;
+  font-weight:700;
+  flex-wrap:wrap;
+}
+
+.ramadan-badge{
+  padding:6px 14px;
+  border-radius:999px;
+  font-size:18px;
+  font-weight:700;
+  color:#3a2c00;
+  background:linear-gradient(135deg,var(--gold1),var(--gold2),var(--gold3),var(--gold4));
+  box-shadow:0 6px 16px rgba(0,0,0,.10);
+  border:1px solid rgba(255,255,255,.45);
+  white-space:nowrap;
 }
 
 /* شريط ذهبي رسمي */
 .banner{
-position:relative;
-padding:22px;
-border-radius:20px;
-background:linear-gradient(135deg,var(--gold1),var(--gold2),var(--gold3),var(--gold4));
-text-align:center;
-font-size:32px;
-font-weight:700;
-color:#3a2c00;
-overflow:hidden;
+  position:relative;
+  padding:28px 30px;
+  min-height:90px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:20px;
+  background:linear-gradient(135deg,var(--gold1),var(--gold2),var(--gold3),var(--gold4));
+  text-align:center;
+  font-size:32px;
+  font-weight:700;
+  color:#3a2c00;
+  overflow:hidden;
 }
 
 .banner::after{
-content:"";
-position:absolute;
-top:0;
-left:-60%;
-width:40%;
-height:100%;
-background:linear-gradient(120deg,transparent,rgba(255,255,255,.7),transparent);
-transform:skewX(-25deg);
-animation:shine 5s infinite;
+  content:"";
+  position:absolute;
+  top:0;
+  left:-60%;
+  width:40%;
+  height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.7),transparent);
+  transform:skewX(-25deg);
+  animation:shine 5s infinite;
 }
 
 @keyframes shine{
-0%{left:-60%;}
-50%{left:130%;}
-100%{left:130%;}
+  0%{left:-60%;}
+  50%{left:130%;}
+  100%{left:130%;}
 }
 
 /* شبكة المواقيت */
 .grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:16px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
 }
 
 .card{
-background:white;
-border-radius:18px;
-padding:20px;
-text-align:center;
-font-size:24px;
-font-weight:700;
-box-shadow:0 10px 22px rgba(0,0,0,.06);
+  background:white;
+  border-radius:18px;
+  padding:20px;
+  text-align:center;
+  font-size:24px;
+  font-weight:700;
+  box-shadow:0 10px 22px rgba(0,0,0,.06);
 }
+
+.card .pname{display:block; margin-bottom:6px;}
+.card .ptime{display:block; font-size:26px;}
 
 /* العدادات */
 .count-section{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-margin-top:18px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-top:18px;
 }
 
 .count-box{
-background:white;
-border-radius:20px;
-padding:20px;
-text-align:center;
-box-shadow:0 10px 22px rgba(0,0,0,.06);
+  background:white;
+  border-radius:20px;
+  padding:20px;
+  text-align:center;
+  box-shadow:0 10px 22px rgba(0,0,0,.06);
 }
 
 .count-title{
-font-size:22px;
-font-weight:700;
+  font-size:22px;
+  font-weight:700;
+}
+
+.count-sub{
+  margin-top:6px;
+  font-size:20px;
+  font-weight:700;
+  opacity:.9;
 }
 
 .count-time{
-font-size:60px;
-font-weight:700;
-margin-top:10px;
+  font-size:60px;
+  font-weight:700;
+  margin-top:12px;
+  letter-spacing:1px;
+}
+
+.footer{
+  margin-top:12px;
+  text-align:center;
+  font-size:14px;
+  opacity:.75;
+}
+
+/* Responsive (لو فتحتيه على شاشة أصغر) */
+@media (max-width: 1100px){
+  .grid{grid-template-columns:repeat(2,1fr);}
+  .count-section{grid-template-columns:1fr;}
+  .clock{font-size:46px;}
+  .banner{font-size:26px;}
+  .count-time{font-size:52px;}
 }
 </style>
 </head>
@@ -145,123 +217,172 @@ margin-top:10px;
 <body>
 <div class="wrap">
 
-<header>
-<div style="font-size:28px;font-weight:700;">مواقيت الصلاة - إمارة الشارقة</div>
-<div id="clock" class="clock"></div>
-</header>
+  <header class="topbar">
+    <div class="right">
+      <img class="logo" src="logo.png" alt="Kalimat">
+      <div class="title">مواقيت الصلاة - إمارة الشارقة</div>
+    </div>
+    <div id="clock" class="clock">--:--</div>
+  </header>
 
-<div id="date" class="datebar"></div>
+  <div class="datebar">
+    <span id="dateText">--</span>
+    <span id="ramadanBadge" class="ramadan-badge" style="display:none;">اليوم -- من رمضان</span>
+  </div>
 
-<div class="banner">
-مركز كلمات للتأهيل وعلاج النطق يتمنى لكم صياماً مقبولاً وإفطاراً هنيئاً 🌙
-</div>
+  <div class="banner">
+    مركز كلمات للتأهيل وعلاج النطق يتمنى لكم صياماً مقبولاً وإفطاراً هنيئاً 🌙
+  </div>
 
-<div>
-<div class="grid" id="times"></div>
+  <div>
+    <div class="grid" id="times"></div>
 
-<div class="count-section">
-<div class="count-box">
-<div class="count-title">الصلاة القادمة</div>
-<div id="nextName"></div>
-<div id="nextCount" class="count-time"></div>
-</div>
+    <div class="count-section">
+      <div class="count-box">
+        <div class="count-title">الصلاة القادمة</div>
+        <div id="nextName" class="count-sub">--</div>
+        <div id="nextCount" class="count-time">--:--:--</div>
+      </div>
 
-<div class="count-box">
-<div class="count-title">وقت الإفطار (المغرب)</div>
-<div id="iftarCount" class="count-time"></div>
-</div>
-</div>
-</div>
+      <div class="count-box">
+        <div class="count-title">وقت الإفطار (المغرب)</div>
+        <div id="iftarAt" class="count-sub">--</div>
+        <div id="iftarCount" class="count-time">--:--:--</div>
+      </div>
+    </div>
+
+    <div id="status" class="footer">يتم تحديث المواقيت تلقائياً</div>
+  </div>
 
 </div>
 
 <script>
 const PRAYERS=[
-{key:"Fajr",ar:"الفجر"},
-{key:"Sunrise",ar:"الشروق"},
-{key:"Dhuhr",ar:"الظهر"},
-{key:"Asr",ar:"العصر"},
-{key:"Maghrib",ar:"المغرب"},
-{key:"Isha",ar:"العشاء"}
+  {key:"Fajr",ar:"الفجر"},
+  {key:"Sunrise",ar:"الشروق"},
+  {key:"Dhuhr",ar:"الظهر"},
+  {key:"Asr",ar:"العصر"},
+  {key:"Maghrib",ar:"المغرب"},
+  {key:"Isha",ar:"العشاء"}
 ];
 
 const el=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(2,"0");
 
+function formatTime12(hhmm){
+  let [h,m]=hhmm.split(":").map(Number);
+  let ampm=h>=12?"م":"ص";
+  let h12=((h+11)%12)+1;
+  return `${h12}:${pad(m)} ${ampm}`;
+}
+
 /* الساعة */
 function updateClock(){
-let now=new Date();
-let h=now.getHours(),m=now.getMinutes();
-let ampm=h>=12?"م":"ص";
-let h12=((h+11)%12)+1;
-el("clock").textContent=`${h12}:${pad(m)} ${ampm}`;
+  let now=new Date();
+  let h=now.getHours(),m=now.getMinutes();
+  let ampm=h>=12?"م":"ص";
+  let h12=((h+11)%12)+1;
+  el("clock").textContent=`${h12}:${pad(m)} ${ampm}`;
 }
-setInterval(updateClock,1000);updateClock();
+setInterval(updateClock,1000);
+updateClock();
 
-/* التاريخ */
+/* التاريخ + شارة رمضان */
 function updateDate(){
-let now=new Date();
-let greg=now.toLocaleDateString("ar-AE",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
-let hijri=new Intl.DateTimeFormat("ar-SA-u-ca-islamic",{day:"numeric",month:"long",year:"numeric"}).format(now);
-el("date").textContent=greg+" | "+hijri;
+  let now=new Date();
+  let greg = now.toLocaleDateString("ar-AE",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+  let hijri = "—";
+  try{
+    hijri = new Intl.DateTimeFormat("ar-SA-u-ca-islamic",{day:"numeric",month:"long",year:"numeric"}).format(now);
+  }catch(e){
+    hijri = "التاريخ الهجري غير متاح";
+  }
+
+  el("dateText").textContent = greg + " | " + hijri;
+
+  const badge = el("ramadanBadge");
+  if(String(hijri).includes("رمضان")){
+    const m = String(hijri).match(/\d+/);
+    const day = m ? parseInt(m[0],10) : null;
+    badge.textContent = day ? `اليوم ${day} من رمضان` : "رمضان";
+    badge.style.display = "inline-block";
+  }else{
+    badge.style.display = "none";
+  }
 }
 updateDate();
+setInterval(updateDate, 60*60*1000);
 
 /* تحميل المواقيت */
 async function fetchTimes(){
-let r=await fetch("https://api.aladhan.com/v1/timingsByCity?city=Sharjah&country=United%20Arab%20Emirates&method=8");
-let j=await r.json();
-return j.data.timings;
+  const url="https://api.aladhan.com/v1/timingsByCity?city=Sharjah&country=United%20Arab%20Emirates&method=8";
+  const r=await fetch(url,{cache:"no-store"});
+  if(!r.ok) throw new Error("Network");
+  const j=await r.json();
+  return j.data.timings;
 }
 
 function parseToday(t){
-let now=new Date();
-let [h,m]=t.split(":").map(Number);
-return new Date(now.getFullYear(),now.getMonth(),now.getDate(),h,m);
+  let now=new Date();
+  let [h,m]=t.split(":").map(Number);
+  return new Date(now.getFullYear(),now.getMonth(),now.getDate(),h,m);
 }
 
 function startCountdown(target,output){
-function tick(){
-let diff=target-new Date();
-if(diff<0) diff=0;
-let s=Math.floor(diff/1000);
-output.textContent=`${pad(Math.floor(s/3600))}:${pad(Math.floor((s%3600)/60))}:${pad(s%60)}`;
-}
-tick();setInterval(tick,1000);
+  function tick(){
+    let diff=target-new Date();
+    if(diff<0) diff=0;
+    let s=Math.floor(diff/1000);
+    output.textContent=`${pad(Math.floor(s/3600))}:${pad(Math.floor((s%3600)/60))}:${pad(s%60)}`;
+  }
+  tick();
+  setInterval(tick,1000);
 }
 
 async function init(){
-let timings=await fetchTimes();
+  try{
+    el("status").textContent="جاري تحميل مواقيت الصلاة…";
+    let timings=await fetchTimes();
 
-let grid=el("times");
-PRAYERS.forEach(p=>{
-let t=timings[p.key].slice(0,5);
-let div=document.createElement("div");
-div.className="card";
-div.innerHTML=`${p.ar}<br>${t}`;
-grid.appendChild(div);
-});
+    // بطاقات المواقيت
+    let grid=el("times");
+    grid.innerHTML="";
+    PRAYERS.forEach(p=>{
+      let t=timings[p.key].slice(0,5);
+      let div=document.createElement("div");
+      div.className="card";
+      div.innerHTML=`<span class="pname">${p.ar}</span><span class="ptime">${t}</span>`;
+      grid.appendChild(div);
+    });
 
-let now=new Date();
-let next=null;
-for(let p of PRAYERS.filter(x=>x.key!=="Sunrise")){
-let t=parseToday(timings[p.key].slice(0,5));
-if(t>now){next={name:p.ar,time:t};break;}
+    // الصلاة القادمة
+    let now=new Date();
+    let next=null;
+
+    for(let p of PRAYERS.filter(x=>x.key!=="Sunrise")){
+      let t=parseToday(timings[p.key].slice(0,5));
+      if(t>now){ next={name:p.ar,time:t}; break; }
+    }
+    if(!next){
+      let fajr=parseToday(timings["Fajr"].slice(0,5));
+      fajr.setDate(fajr.getDate()+1);
+      next={name:"الفجر",time:fajr};
+    }
+
+    el("nextName").textContent = `${next.name} — ${formatTime12(`${pad(next.time.getHours())}:${pad(next.time.getMinutes())}`)}`;
+    startCountdown(next.time, el("nextCount"));
+
+    // الإفطار (المغرب)
+    let maghrib=parseToday(timings["Maghrib"].slice(0,5));
+    el("iftarAt").textContent = `المغرب — ${formatTime12(`${pad(maghrib.getHours())}:${pad(maghrib.getMinutes())}`)}`;
+    startCountdown(maghrib, el("iftarCount"));
+
+    el("status").textContent="تم تحديث المواقيت تلقائياً ✅";
+  }catch(e){
+    console.error(e);
+    el("status").textContent="تعذّر تحميل المواقيت. تأكد من الإنترنت ثم Ctrl + F5";
+  }
 }
-
-if(!next){
-let fajr=parseToday(timings["Fajr"].slice(0,5));
-fajr.setDate(fajr.getDate()+1);
-next={name:"الفجر",time:fajr};
-}
-
-el("nextName").textContent=next.name;
-startCountdown(next.time,el("nextCount"));
-
-let maghrib=parseToday(timings["Maghrib"].slice(0,5));
-startCountdown(maghrib,el("iftarCount"));
-}
-
 init();
 </script>
 
