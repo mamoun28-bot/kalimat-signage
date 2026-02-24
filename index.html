@@ -3,16 +3,11 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --gold1:#b8891a;
-  --gold2:#f6e08d;
-  --gold3:#d4af37;
-  --gold4:#8a6512;
-  --soft-bg:#f7f9fc;
+  --gold1:#b8891a; --gold2:#f6e08d; --gold3:#d4af37; --gold4:#8a6512;
   --ink:#1d2430;
 }
 
@@ -21,15 +16,16 @@
 body{
   margin:0;
   font-family:'Amiri',serif;
-  background:radial-gradient(1200px 700px at 20% 15%, rgba(42,167,223,.10), transparent 60%),
-             radial-gradient(900px 600px at 85% 40%, rgba(139,197,63,.10), transparent 55%),
-             radial-gradient(900px 700px at 70% 95%, rgba(230,122,179,.08), transparent 60%),
-             var(--soft-bg);
   color:var(--ink);
   overflow:hidden;
+  background:
+    radial-gradient(1100px 650px at 15% 18%, rgba(42,167,223,.10), transparent 60%),
+    radial-gradient(900px 560px at 85% 45%, rgba(139,197,63,.10), transparent 58%),
+    radial-gradient(900px 700px at 70% 95%, rgba(230,122,179,.08), transparent 62%),
+    #f7f9fc;
 }
 
-/* إطار ذهبي رسمي */
+/* إطار ذهبي */
 body::before{
   content:"";
   position:fixed;
@@ -40,29 +36,29 @@ body::before{
 }
 
 .wrap{
-  padding:40px 40px 30px 40px;
-  min-height:100vh;
+  padding:22px 26px 18px 26px;
+  height:100vh;
   display:grid;
   grid-template-rows:auto auto auto 1fr;
-  gap:22px;
+  gap:10px;
 }
 
-/* Top Bar */
+/* Top bar */
 .topbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:16px;
+  gap:12px;
 }
 
-.topbar .right{
+.right{
   display:flex;
   align-items:center;
-  gap:14px;
+  gap:10px;
 }
 
 .logo{
-  height:64px;
+  height:54px;
   background:#fff;
   padding:6px;
   border-radius:12px;
@@ -70,162 +66,139 @@ body::before{
 }
 
 .title{
-  font-size:28px;
+  font-size:24px;
   font-weight:700;
 }
 
 .clock{
-  font-size:56px;
+  font-size:48px;
   font-weight:700;
-  letter-spacing:1px;
   opacity:.92;
+  letter-spacing:.5px;
   white-space:nowrap;
 }
 
-/* التاريخ + شارة رمضان */
+/* Date bar */
 .datebar{
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:12px;
-  background:rgba(255,255,255,.92);
-  padding:12px 16px;
-  border-radius:16px;
-  box-shadow:0 8px 18px rgba(0,0,0,.05);
-  font-size:22px;
-  font-weight:700;
+  gap:10px;
   flex-wrap:wrap;
-  border:1px solid rgba(212,175,55,.18);
+  background:rgba(255,255,255,.92);
+  padding:10px 14px;
+  border-radius:14px;
+  border:1px solid rgba(212,175,55,.16);
+  box-shadow:0 10px 22px rgba(0,0,0,.05);
+  font-size:20px;
+  font-weight:700;
 }
 
 .ramadan-badge{
-  padding:6px 14px;
+  padding:6px 12px;
   border-radius:999px;
-  font-size:18px;
+  font-size:16px;
   font-weight:700;
   color:#3a2c00;
   background:linear-gradient(135deg,var(--gold1),var(--gold2),var(--gold3),var(--gold4));
-  box-shadow:0 6px 16px rgba(0,0,0,.10);
   border:1px solid rgba(255,255,255,.45);
+  box-shadow:0 6px 14px rgba(0,0,0,.10);
   white-space:nowrap;
 }
 
-/* شريط ذهبي رسمي */
+/* Banner */
 .banner{
   position:relative;
-  padding:28px 30px;
-  min-height:90px;
+  padding:14px 18px;
+  min-height:56px;
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius:20px;
+  border-radius:18px;
   background:linear-gradient(135deg,var(--gold1),var(--gold2),var(--gold3),var(--gold4));
-  text-align:center;
-  font-size:32px;
-  font-weight:700;
   color:#3a2c00;
+  font-size:24px;
+  font-weight:700;
+  text-align:center;
   overflow:hidden;
-  box-shadow:0 14px 30px rgba(0,0,0,.12);
   border:1px solid rgba(255,255,255,.35);
+  box-shadow:0 14px 28px rgba(0,0,0,.12);
 }
 
 .banner::after{
   content:"";
   position:absolute;
-  top:0;
-  left:-60%;
-  width:40%;
-  height:100%;
-  background:linear-gradient(120deg,transparent,rgba(255,255,255,.70),transparent);
+  top:0; left:-65%;
+  width:40%; height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.7),transparent);
   transform:skewX(-25deg);
   animation:shine 5s infinite;
 }
+@keyframes shine{0%{left:-65%}45%{left:135%}100%{left:135%}}
 
-@keyframes shine{
-  0%{left:-60%;}
-  50%{left:130%;}
-  100%{left:130%;}
-}
-
-/* لوحة المحتوى */
+/* Panel */
 .panel{
+  height:100%;
   background:rgba(255,255,255,.92);
-  border-radius:22px;
-  padding:18px;
-  box-shadow:0 14px 30px rgba(0,0,0,.07);
+  border-radius:18px;
+  padding:12px;
   border:1px solid rgba(212,175,55,.14);
+  box-shadow:0 14px 28px rgba(0,0,0,.07);
+  display:grid;
+  grid-template-rows:auto auto auto;
+  gap:10px;
 }
 
-/* شبكة المواقيت */
+/* Times grid */
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:16px;
+  gap:10px;
 }
 
 .card{
-  background:white;
-  border-radius:18px;
-  padding:18px 16px;
+  background:#fff;
+  border-radius:14px;
+  padding:12px 10px;
   text-align:center;
-  font-weight:700;
-  box-shadow:0 10px 22px rgba(0,0,0,.06);
   border:1px solid rgba(0,0,0,.04);
+  box-shadow:0 10px 18px rgba(0,0,0,.06);
 }
 
-.card .pname{display:block; font-size:24px; margin-bottom:6px;}
-.card .ptime{display:block; font-size:28px; letter-spacing:.3px;}
+.card .pname{display:block; font-size:19px; font-weight:700; margin-bottom:4px;}
+.card .ptime{display:block; font-size:24px; font-weight:700; letter-spacing:.3px;}
 
-/* العدادات */
+/* Counters */
 .count-section{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:18px;
-  margin-top:18px;
+  gap:10px;
 }
 
 .count-box{
-  background:white;
-  border-radius:20px;
-  padding:18px 20px;
-  text-align:center;
-  box-shadow:0 10px 22px rgba(0,0,0,.06);
+  background:#fff;
+  border-radius:16px;
+  padding:12px 12px;
   border:1px solid rgba(0,0,0,.04);
+  box-shadow:0 10px 18px rgba(0,0,0,.06);
+  text-align:center;
 }
 
-.count-title{
-  font-size:22px;
-  font-weight:700;
-}
-
-.count-sub{
-  margin-top:6px;
-  font-size:20px;
-  font-weight:700;
-  opacity:.9;
-}
-
-.count-time{
-  font-size:64px;
-  font-weight:700;
-  margin-top:12px;
-  letter-spacing:1px;
-}
+.count-title{font-size:17px; font-weight:700;}
+.count-sub{margin-top:4px; font-size:15px; font-weight:700; opacity:.88;}
+.count-time{margin-top:8px; font-size:44px; font-weight:700; letter-spacing:1px; line-height:1.1;}
 
 .footer{
-  margin-top:10px;
   text-align:center;
-  font-size:14px;
+  font-size:13px;
   opacity:.75;
 }
 
-/* Responsive */
-@media (max-width: 1100px){
+/* small screens */
+@media (max-width: 980px){
   .grid{grid-template-columns:repeat(2,1fr);}
   .count-section{grid-template-columns:1fr;}
-  .clock{font-size:46px;}
-  .banner{font-size:26px;}
-  .count-time{font-size:52px;}
+  .count-time{font-size:40px;}
 }
 </style>
 </head>
@@ -267,17 +240,13 @@ body::before{
       </div>
     </div>
 
-    <div id="status" class="footer">يتم تحديث العدادات تلقائياً</div>
+    <div id="status" class="footer">العدادات تعمل حسب جدول حكومة الشارقة ✅</div>
   </div>
 
 </div>
 
 <script>
-/**
- * جدول حكومة الشارقة (ثابت) — فبراير + مارس 2026
- * المفتاح: YYYY-MM-DD
- * القيم: hijri + timings (24h)
- */
+/* جدول حكومة الشارقة (ثابت) — فبراير + مارس 2026 */
 const SHJ = {
   "2026-02-01": { hijri:"13 شعبان 1447", fajr:"05:42", sunrise:"06:58", dhuhr:"12:34", asr:"15:41", maghrib:"18:05", isha:"19:21" },
   "2026-02-02": { hijri:"14 شعبان 1447", fajr:"05:42", sunrise:"06:58", dhuhr:"12:34", asr:"15:41", maghrib:"18:06", isha:"19:22" },
@@ -342,38 +311,34 @@ const SHJ = {
   "2026-03-31": { hijri:"12 شوال 1447", fajr:"04:53", sunrise:"06:08", dhuhr:"12:25", asr:"15:51", maghrib:"18:37", isha:"19:52" }
 };
 
-const el = (id)=>document.getElementById(id);
-const pad = (n)=>String(n).padStart(2,"0");
+const el=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,"0");
 
 function formatTime12(hhmm){
-  let [h,m]=hhmm.split(":").map(Number);
-  let ampm=h>=12?"م":"ص";
-  let h12=((h+11)%12)+1;
+  const [h,m]=hhmm.split(":").map(Number);
+  const ampm=h>=12?"م":"ص";
+  const h12=((h+11)%12)+1;
   return `${h12}:${pad(m)} ${ampm}`;
 }
 
 function todayKey(){
   const d=new Date();
-  const y=d.getFullYear();
-  const mo=pad(d.getMonth()+1);
-  const da=pad(d.getDate());
-  return `${y}-${mo}-${da}`;
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 }
 
 function updateClock(){
-  let now=new Date();
-  let h=now.getHours(),m=now.getMinutes();
-  let ampm=h>=12?"م":"ص";
-  let h12=((h+11)%12)+1;
-  el("clock").textContent = `${h12}:${pad(m)} ${ampm}`;
+  const now=new Date();
+  const h=now.getHours(), m=now.getMinutes();
+  const ampm=h>=12?"م":"ص";
+  const h12=((h+11)%12)+1;
+  el("clock").textContent=`${h12}:${pad(m)} ${ampm}`;
 }
-setInterval(updateClock,1000);
-updateClock();
+setInterval(updateClock,1000); updateClock();
 
 function updateDateBar(row){
   const now=new Date();
   const greg = now.toLocaleDateString("ar-AE",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
-  const hijri = row?.hijri ? row.hijri : "—";
+  const hijri = row?.hijri || "—";
   el("dateText").textContent = `${greg} | ${hijri}`;
 
   const badge = el("ramadanBadge");
@@ -381,9 +346,9 @@ function updateDateBar(row){
     const m = hijri.match(/\d+/);
     const day = m ? parseInt(m[0],10) : null;
     badge.textContent = day ? `اليوم ${day} من رمضان` : "رمضان";
-    badge.style.display = "inline-block";
+    badge.style.display="inline-block";
   }else{
-    badge.style.display = "none";
+    badge.style.display="none";
   }
 }
 
@@ -400,65 +365,59 @@ function startCountdown(target, output){
     const s = Math.floor(diff/1000);
     output.textContent = `${pad(Math.floor(s/3600))}:${pad(Math.floor((s%3600)/60))}:${pad(s%60)}`;
   }
-  tick();
-  setInterval(tick, 1000);
+  tick(); setInterval(tick,1000);
 }
 
-function renderForRow(row){
+function renderRow(row){
   const grid = el("times");
   grid.innerHTML="";
 
   const items = [
-    {name:"الفجر", time: row.fajr},
-    {name:"الشروق", time: row.sunrise},
-    {name:"الظهر", time: row.dhuhr},
-    {name:"العصر", time: row.asr},
-    {name:"المغرب", time: row.maghrib},
-    {name:"العشاء", time: row.isha},
+    {n:"الفجر", t:row.fajr},
+    {n:"الشروق", t:row.sunrise},
+    {n:"الظهر", t:row.dhuhr},
+    {n:"العصر", t:row.asr},
+    {n:"المغرب", t:row.maghrib},
+    {n:"العشاء", t:row.isha},
   ];
 
-  items.forEach(it=>{
-    const div=document.createElement("div");
-    div.className="card";
-    div.innerHTML = `<span class="pname">${it.name}</span><span class="ptime">${it.time}</span>`;
-    grid.appendChild(div);
-  });
-
-  // الصلاة القادمة (نستثني الشروق)
-  const sequence = [
-    {name:"الفجر", key:"fajr"},
-    {name:"الظهر", key:"dhuhr"},
-    {name:"العصر", key:"asr"},
-    {name:"المغرب", key:"maghrib"},
-    {name:"العشاء", key:"isha"}
-  ];
-
-  const now = new Date();
-  let next = null;
-
-  for(const p of sequence){
-    const t = parseTodayTime(row[p.key]);
-    if(t > now){
-      next = {name:p.name, at: row[p.key], dt: t};
-      break;
-    }
+  for(const it of items){
+    const c=document.createElement("div");
+    c.className="card";
+    c.innerHTML=`<span class="pname">${it.n}</span><span class="ptime">${it.t}</span>`;
+    grid.appendChild(c);
   }
 
-  // إذا خلصت الصلوات اليوم: نجيب فجر بكرة من الجدول
+  // next prayer (exclude sunrise)
+  const seq=[
+    {n:"الفجر", k:"fajr"},
+    {n:"الظهر", k:"dhuhr"},
+    {n:"العصر", k:"asr"},
+    {n:"المغرب", k:"maghrib"},
+    {n:"العشاء", k:"isha"}
+  ];
+
+  const now=new Date();
+  let next=null;
+
+  for(const p of seq){
+    const dt=parseTodayTime(row[p.k]);
+    if(dt>now){ next={name:p.n, at:row[p.k], dt}; break; }
+  }
+
+  // fallback to tomorrow fajr
   if(!next){
-    const d = new Date();
-    d.setDate(d.getDate()+1);
-    const k = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-    const tomorrow = SHJ[k];
-    if(tomorrow){
-      const dt = new Date(d.getFullYear(), d.getMonth(), d.getDate(), ...tomorrow.fajr.split(":").map(Number), 0);
-      next = {name:"الفجر", at: tomorrow.fajr, dt};
-      el("status").textContent = "تنبيه: تم الانتقال لعدّاد فجر الغد ✅";
+    const d=new Date(); d.setDate(d.getDate()+1);
+    const k=`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    const t=SHJ[k];
+    if(t){
+      const [hh,mm]=t.fajr.split(":").map(Number);
+      const dt=new Date(d.getFullYear(), d.getMonth(), d.getDate(), hh, mm, 0);
+      next={name:"الفجر", at:t.fajr, dt};
+      el("status").textContent="تم الانتقال لعدّاد فجر الغد ✅";
     }else{
-      el("status").textContent = "تنبيه: لا يوجد سطر للغد في الجدول (أضيفوا الأيام التالية).";
+      el("status").textContent="لا يوجد سطر للغد في الجدول — أضيفوا أيام جديدة.";
     }
-  }else{
-    el("status").textContent = "العدادات تعمل حسب جدول حكومة الشارقة ✅";
   }
 
   if(next){
@@ -466,29 +425,26 @@ function renderForRow(row){
     startCountdown(next.dt, el("nextCount"));
   }
 
-  // الإفطار = المغرب
   el("iftarAt").textContent = `المغرب — ${formatTime12(row.maghrib)}`;
   startCountdown(parseTodayTime(row.maghrib), el("iftarCount"));
 }
 
 (function init(){
-  const key = todayKey();
-  const row = SHJ[key];
+  const key=todayKey();
+  const row=SHJ[key];
 
   if(!row){
-    // fallback: أحدث يوم متاح (مفيد لو التاريخ خارج نطاق الجدول)
-    const keys = Object.keys(SHJ).sort();
-    const last = SHJ[keys[keys.length-1]];
+    const keys=Object.keys(SHJ).sort();
+    const last=SHJ[keys[keys.length-1]];
     updateDateBar(last);
-    el("status").textContent = "التاريخ الحالي خارج نطاق الجدول. أضيفي أيام جديدة.";
-    renderForRow(last);
+    renderRow(last);
+    el("status").textContent="التاريخ الحالي خارج نطاق الجدول — أضيفوا أيام جديدة.";
     return;
   }
 
   updateDateBar(row);
-  renderForRow(row);
+  renderRow(row);
 })();
 </script>
-
 </body>
 </html>
