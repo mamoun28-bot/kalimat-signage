@@ -2,602 +2,490 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <title>مواقيت الصلاة - الشارقة | مركز كلمات</title>
-
-  <!-- خط عربي أنيق (خفيف + رسمي) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <title>مواقيت الصلاة - الشارقة</title>
 
   <style>
     :root{
-      --bg1:#f6fbff;
-      --bg2:#fbf7ff;
-      --ink:#0f172a;
-      --muted:#475569;
-      --panel:#ffffff;
-      --panel2:#fbfdff;
-      --stroke:rgba(15,23,42,.08);
-
-      --gold1:#b8860b;
-      --gold2:#f4d37a;
-      --gold3:#8a6408;
-
-      --shadow: 0 18px 40px rgba(15,23,42,.10);
-      --radius: 22px;
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --gold:#b9891b;
+      --gold2:#d9b85a;
+      --shadow: 0 10px 25px rgba(17,24,39,.08);
+      --radius:18px;
     }
 
-    *{box-sizing:border-box;}
-    html,body{height:100%;}
+    *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      color:var(--ink);
-      font-family:"Tajawal","Noto Naskh Arabic",system-ui,-apple-system,Segoe UI,Arial;
-      background:
-        radial-gradient(1200px 700px at 20% 10%, rgba(59,130,246,.08), transparent 60%),
-        radial-gradient(900px 600px at 90% 85%, rgba(236,72,153,.07), transparent 55%),
-        linear-gradient(135deg,var(--bg1),var(--bg2));
-      /* ممنوع أي فلتر/أوباسيتي عام */
-      filter:none !important;
-      opacity:1 !important;
+      font-family: Tahoma, Arial, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
       overflow:hidden;
     }
 
-    /* إطار ذهبي رفيع */
+    /* إطار بسيط (بدون طبقات ذهبية شفافة) */
     .frame{
-      position:fixed; inset:14px;
-      border-radius:28px;
-      border:3px solid rgba(184,134,11,.55);
-      box-shadow: inset 0 0 0 1px rgba(244,211,122,.45);
-      pointer-events:none;
+      height:100vh;
+      width:100vw;
+      padding:18px;
     }
-
     .wrap{
-      height:100vh; width:100vw;
-      padding:22px 26px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-
-    .topbar{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:18px;
-    }
-
-    /* ساعة ناعمة وواضحة */
-    .clock{
-      direction:ltr;
-      display:flex;
-      align-items:flex-end;
-      gap:10px;
-    }
-    .clock .time{
-      font-size:84px;
-      font-weight:800;
-      letter-spacing:.5px;
-      line-height:1;
-    }
-    .clock .ampm{
-      font-size:40px;
-      font-weight:700;
-      color:var(--muted);
-      transform:translateY(-6px);
-    }
-
-    .brand{
-      display:flex;
-      align-items:flex-start;
-      gap:14px;
-    }
-    .brand .title{
-      text-align:right;
-      padding-top:6px;
-    }
-    .brand .title .h{
-      font-family:"Noto Naskh Arabic","Tajawal",serif;
-      font-size:30px;
-      font-weight:700;
-    }
-    .brand .title .s{
-      margin-top:2px;
-      font-size:16px;
-      color:var(--muted);
-      font-weight:600;
-    }
-    .brand img{
-      width:64px; height:64px;
-      object-fit:contain;
-      border-radius:14px;
-      background:rgba(255,255,255,.7);
-      border:1px solid var(--stroke);
-      box-shadow:0 10px 25px rgba(15,23,42,.08);
-    }
-
-    .dateRow{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:12px;
-      background:rgba(255,255,255,.75);
-      border:1px solid var(--stroke);
-      border-radius:16px;
-      padding:10px 14px;
-      box-shadow:0 10px 28px rgba(15,23,42,.06);
-      backdrop-filter:saturate(120%) blur(6px);
-    }
-    .dateRow .dateText{
-      font-size:20px;
-      font-weight:700;
-      color:#1f2937;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      max-width:72vw;
-    }
-
-    /* شارة رمضان ذهبية صغيرة */
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 14px;
-      border-radius:999px;
-      background:linear-gradient(135deg,var(--gold1),var(--gold2));
-      color:#1b1402;
-      font-weight:800;
-      font-size:16px;
-      border:1px solid rgba(138,100,8,.35);
-      box-shadow:0 10px 24px rgba(184,134,11,.25);
-      flex:0 0 auto;
-    }
-
-    /* الشريط الذهبي الرسمي */
-    .banner{
-      position:relative;
-      background: linear-gradient(135deg, var(--gold1) 0%, var(--gold2) 45%, #f9e4a6 55%, var(--gold1) 100%);
-      border:1px solid rgba(138,100,8,.35);
-      border-radius:var(--radius);
-      padding:18px 18px;
+      height:100%;
+      width:100%;
+      border:3px solid rgba(185,137,27,.35);
+      border-radius:24px;
+      background: linear-gradient(180deg,#fbfbfd 0%, #f6f7fb 100%);
+      padding:18px;
       box-shadow: var(--shadow);
       overflow:hidden;
     }
-    .banner .txt{
-      font-family:"Noto Naskh Arabic","Tajawal",serif;
-      text-align:center;
-      font-size:34px;
-      font-weight:700;
-      color:#1a1405;
-      line-height:1.25;
-    }
 
-    .grid{
-      flex:1;
+    /* الهيدر */
+    .header{
       display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap:16px;
-      min-height:0;
+      grid-template-columns: 120px 1fr 260px;
+      align-items:center;
+      gap:14px;
+      margin-bottom:12px;
+    }
+    .logoBox{
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      gap:10px;
+    }
+    .logoBox img{
+      width:88px;
+      height:auto;
+      display:block;
+      border-radius:14px;
+      background:#fff;
+      border:1px solid var(--line);
+      padding:8px;
+    }
+    .titleBox{
+      text-align:right;
+      line-height:1.2;
+    }
+    .title{
+      font-size:32px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .subtitle{
+      display:none; /* شلنا "عرض فاخر لشاشة الاستقبال" نهائياً */
+    }
+    .clock{
+      text-align:left;
+      font-weight:900;
+      font-size:88px;
+      letter-spacing:1px;
+      white-space:nowrap;
+    }
+    .clock small{
+      font-size:28px;
+      font-weight:800;
+      margin-right:8px;
+      color:var(--muted);
+      vertical-align:middle;
     }
 
-    .card{
-      background:rgba(255,255,255,.92);
-      border:1px solid var(--stroke);
-      border-radius:var(--radius);
-      padding:18px 18px;
-      box-shadow:0 16px 36px rgba(15,23,42,.08);
-      min-height:0;
+    /* سطر التاريخ */
+    .dateRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      padding:14px 16px;
+      box-shadow: 0 6px 16px rgba(17,24,39,.06);
+      margin-bottom:12px;
     }
-    .card .k{
-      font-family:"Noto Naskh Arabic","Tajawal",serif;
-      font-size:24px;
-      font-weight:700;
+    .dateText{
+      font-size:22px;
+      font-weight:800;
+      color:#1f2937;
+    }
+    .badge{
+      flex:0 0 auto;
+      padding:10px 14px;
+      border-radius:999px;
+      background: linear-gradient(90deg,var(--gold2),var(--gold));
       color:#111827;
-      text-align:center;
-      margin-bottom:10px;
+      font-weight:900;
+      font-size:18px;
+      border:1px solid rgba(185,137,27,.35);
+      box-shadow: 0 8px 18px rgba(185,137,27,.18);
+      white-space:nowrap;
     }
-    .card .v{
-      direction:ltr;
+
+    /* شريط الجملة */
+    .banner{
+      background: linear-gradient(90deg,#d8b65a, #b9891b);
+      color:#111827;
+      border-radius:22px;
+      padding:14px 18px;
       font-size:34px;
       font-weight:900;
       text-align:center;
+      box-shadow: 0 10px 22px rgba(185,137,27,.22);
+      border:1px solid rgba(0,0,0,.08);
+      margin-bottom:14px;
+    }
+
+    /* شبكة الصلوات */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-bottom:14px;
+    }
+    .card{
+      background: var(--card);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 22px rgba(17,24,39,.06);
+      padding:18px;
+      min-height:120px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+    }
+    .pname{
+      font-size:26px;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+    .ptime{
+      font-size:44px;
+      font-weight:900;
       letter-spacing:.5px;
     }
 
+    /* عدادات أسفل */
     .bottom{
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap:16px;
-      margin-top:2px;
+      gap:14px;
     }
     .big{
-      background:rgba(255,255,255,.94);
-      border:1px solid var(--stroke);
-      border-radius:var(--radius);
-      padding:18px 18px;
-      box-shadow:0 18px 40px rgba(15,23,42,.10);
-      min-height:140px;
-    }
-    .big .h{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 26px rgba(17,24,39,.08);
+      padding:18px;
+      min-height:170px;
       display:flex;
-      justify-content:space-between;
+      flex-direction:column;
+      justify-content:center;
       align-items:center;
-      gap:10px;
-      margin-bottom:8px;
-      font-family:"Noto Naskh Arabic","Tajawal",serif;
-      font-size:22px;
-      font-weight:800;
-      color:#111827;
+      text-align:center;
     }
-    .big .sub{
-      font-size:16px;
+    .big h3{
+      margin:0 0 8px 0;
+      font-size:26px;
+      font-weight:900;
+    }
+    .big .meta{
+      font-size:18px;
       color:var(--muted);
-      font-weight:700;
+      font-weight:800;
+      margin-bottom:12px;
     }
     .big .count{
-      direction:ltr;
-      text-align:center;
-      font-size:66px;
-      font-weight:1000;
+      font-size:74px;
+      font-weight:900;
       letter-spacing:1px;
-      margin-top:8px;
     }
 
     .footer{
+      margin-top:10px;
       text-align:center;
-      font-size:13px;
-      color:rgba(71,85,105,.85);
+      color:var(--muted);
       font-weight:700;
-      padding-top:2px;
+      font-size:14px;
     }
 
-    /* نسخة Android مضغوطة (إن احتجنا) */
-    .android .clock .time{font-size:92px;}
-    .android .banner .txt{font-size:36px;}
-    .android .card .v{font-size:38px;}
-    .android .big .count{font-size:70px;}
+    /* مهم جداً: نلغي أي شفافية/فلتر يسبب “بهتان” في Android WebView */
+    .wrap, .card, .big, .banner, .dateRow { filter:none !important; opacity:1 !important; }
 
-    @media (max-width:1200px){
-      .clock .time{font-size:70px;}
-      .banner .txt{font-size:30px;}
-      .grid{grid-template-columns:1fr 1fr;}
-      .bottom{grid-template-columns:1fr;}
+    /* مقاسات مناسبة لـ 32" */
+    @media (max-width: 1200px){
+      .clock{font-size:70px}
+      .banner{font-size:28px}
+      .ptime{font-size:38px}
+      .big .count{font-size:60px}
     }
   </style>
 </head>
 
 <body>
-  <div class="frame"></div>
-
-  <div class="wrap" id="app">
-    <div class="topbar">
-      <div class="clock">
-        <div class="time" id="clockTime">--:--</div>
-        <div class="ampm" id="clockAmPm">--</div>
-      </div>
-
-      <div class="brand">
-        <div class="title">
-          <div class="h">مواقيت الصلاة - إمارة الشارقة</div>
-          <div class="s">عرض فاخر لشاشة الاستقبال</div>
+  <div class="frame">
+    <div class="wrap">
+      <div class="header">
+        <div class="logoBox">
+          <img id="logo" src="logo.png" alt="Kalimat logo" />
         </div>
-        <img id="logo" alt="Kalimat" />
-      </div>
-    </div>
 
-    <div class="dateRow">
-      <span class="badge" id="ramadanBadge" style="display:none;">اليوم -- من رمضان</span>
-      <div class="dateText" id="dateLine">--</div>
-    </div>
-
-    <div class="banner">
-      <div class="txt">مركز كلمات للتأهيل وعلاج النطق يتمنى لكم صياماً مقبولاً وإفطاراً هنيئاً 🌙</div>
-    </div>
-
-    <div class="grid">
-      <div class="card">
-        <div class="k">الفجر</div>
-        <div class="v" id="fajr">--:--</div>
-      </div>
-      <div class="card">
-        <div class="k">الشروق</div>
-        <div class="v" id="sunrise">--:--</div>
-      </div>
-      <div class="card">
-        <div class="k">الظهر</div>
-        <div class="v" id="dhuhr">--:--</div>
-      </div>
-
-      <div class="card">
-        <div class="k">العصر</div>
-        <div class="v" id="asr">--:--</div>
-      </div>
-      <div class="card">
-        <div class="k">المغرب</div>
-        <div class="v" id="maghrib">--:--</div>
-      </div>
-      <div class="card">
-        <div class="k">العشاء</div>
-        <div class="v" id="isha">--:--</div>
-      </div>
-    </div>
-
-    <div class="bottom">
-      <div class="big" id="iftarBox">
-        <div class="h">
-          <span>وقت الإفطار (المغرب)</span>
-          <span class="sub" id="iftarSub">وقت المغرب: --:--</span>
+        <div class="titleBox">
+          <div class="title">مواقيت الصلاة - إمارة الشارقة</div>
         </div>
-        <div class="count" id="iftarCountdown">--:--:--</div>
+
+        <div class="clock" id="clock"><small>م</small>--:--</div>
       </div>
 
-      <div class="big" id="nextBox">
-        <div class="h">
-          <span>الصلاة القادمة</span>
-          <span class="sub" id="nextSub">--</span>
+      <div class="dateRow">
+        <div class="dateText" id="dateText">--</div>
+        <div class="badge" id="ramadanBadge" style="display:none;">--</div>
+      </div>
+
+      <div class="banner" id="banner">
+        مركز كلمات للتأهيل وعلاج النطق يتمنى لكم صياماً مقبولاً وإفطاراً هنيئاً
+      </div>
+
+      <div class="grid">
+        <div class="card"><div class="pname">الفجر</div><div class="ptime" id="tFajr">--:--</div></div>
+        <div class="card"><div class="pname">الشروق</div><div class="ptime" id="tSunrise">--:--</div></div>
+        <div class="card"><div class="pname">الظهر</div><div class="ptime" id="tDhuhr">--:--</div></div>
+        <div class="card"><div class="pname">العصر</div><div class="ptime" id="tAsr">--:--</div></div>
+        <div class="card"><div class="pname">المغرب</div><div class="ptime" id="tMaghrib">--:--</div></div>
+        <div class="card"><div class="pname">العشاء</div><div class="ptime" id="tIsha">--:--</div></div>
+      </div>
+
+      <div class="bottom">
+        <div class="big">
+          <h3>الصلاة القادمة</h3>
+          <div class="meta" id="nextMeta">--</div>
+          <div class="count" id="nextCount">--:--:--</div>
         </div>
-        <div class="count" id="nextCountdown">--:--:--</div>
-      </div>
-    </div>
 
-    <div class="footer">جدول ثابت مطابق لحكومة الشارقة (فبراير + مارس 2026) — يتم التحديث تلقائياً</div>
+        <div class="big">
+          <h3>وقت الإفطار (المغرب)</h3>
+          <div class="meta" id="iftarMeta">--</div>
+          <div class="count" id="iftarCount">--:--:--</div>
+        </div>
+      </div>
+
+      <div class="footer">جدول ثابت مطابق لجدول حكومة الشارقة (فبراير + مارس 2026)</div>
+    </div>
   </div>
 
 <script>
-/* ========= إعدادات ========= */
-const TIMEZONE = "Asia/Dubai";          // Sharjah / UAE
-const LOGO_SRC = "logo.png";
+/* ✅ توقيت الشارقة ثابت (UTC+4) حتى لو الجهاز توقيته مختلف */
+const SHARJAH_OFFSET_HOURS = 4;
 
-/* وضع Android (مجرد تكبير/توضيح) */
-(function setMode(){
-  const v = new URLSearchParams(location.search).get("v") || "";
-  if (v.toLowerCase().includes("android") || v.toLowerCase().includes("premium-32")){
-    document.getElementById("app").classList.add("android");
-  }
-})();
-
-/* ========= جدول الشارقة الثابت (فبراير + مارس 2026) =========
-   صيغة الوقت هنا: "5:42 ص" / "12:34 م"
-*/
-const PRAYER_TABLE = {
-  // ===== فبراير 2026 =====
-  "2026-02-01": { hijri:"13 شعبان 1447", fajr:"5:42 ص", sunrise:"6:58 ص", dhuhr:"12:34 م", asr:"3:41 م", maghrib:"6:05 م", isha:"7:21 م" },
-  "2026-02-02": { hijri:"14 شعبان 1447", fajr:"5:42 ص", sunrise:"6:58 ص", dhuhr:"12:34 م", asr:"3:41 م", maghrib:"6:06 م", isha:"7:22 م" },
-  "2026-02-03": { hijri:"15 شعبان 1447", fajr:"5:41 ص", sunrise:"6:57 ص", dhuhr:"12:34 م", asr:"3:42 م", maghrib:"6:07 م", isha:"7:23 م" },
-  "2026-02-04": { hijri:"16 شعبان 1447", fajr:"5:41 ص", sunrise:"6:57 ص", dhuhr:"12:34 م", asr:"3:42 م", maghrib:"6:07 م", isha:"7:23 م" },
-  "2026-02-05": { hijri:"17 شعبان 1447", fajr:"5:40 ص", sunrise:"6:56 ص", dhuhr:"12:35 م", asr:"3:43 م", maghrib:"6:08 م", isha:"7:24 م" },
-  "2026-02-06": { hijri:"18 شعبان 1447", fajr:"5:40 ص", sunrise:"6:55 ص", dhuhr:"12:35 م", asr:"3:43 م", maghrib:"6:09 م", isha:"7:24 م" },
-  "2026-02-07": { hijri:"19 شعبان 1447", fajr:"5:40 ص", sunrise:"6:55 ص", dhuhr:"12:35 م", asr:"3:44 م", maghrib:"6:10 م", isha:"7:25 م" },
-  "2026-02-08": { hijri:"20 شعبان 1447", fajr:"5:39 ص", sunrise:"6:54 ص", dhuhr:"12:35 م", asr:"3:44 م", maghrib:"6:10 م", isha:"7:26 م" },
-  "2026-02-09": { hijri:"21 شعبان 1447", fajr:"5:39 ص", sunrise:"6:54 ص", dhuhr:"12:35 م", asr:"3:45 م", maghrib:"6:11 م", isha:"7:26 م" },
-  "2026-02-10": { hijri:"22 شعبان 1447", fajr:"5:38 ص", sunrise:"6:53 ص", dhuhr:"12:35 م", asr:"3:45 م", maghrib:"6:12 م", isha:"7:27 م" },
-  "2026-02-11": { hijri:"23 شعبان 1447", fajr:"5:37 ص", sunrise:"6:52 ص", dhuhr:"12:35 م", asr:"3:46 م", maghrib:"6:12 م", isha:"7:27 م" },
-  "2026-02-12": { hijri:"24 شعبان 1447", fajr:"5:37 ص", sunrise:"6:52 ص", dhuhr:"12:35 م", asr:"3:46 م", maghrib:"6:13 م", isha:"7:28 م" },
-  "2026-02-13": { hijri:"25 شعبان 1447", fajr:"5:36 ص", sunrise:"6:51 ص", dhuhr:"12:35 م", asr:"3:47 م", maghrib:"6:14 م", isha:"7:28 م" },
-  "2026-02-14": { hijri:"26 شعبان 1447", fajr:"5:36 ص", sunrise:"6:50 ص", dhuhr:"12:35 م", asr:"3:47 م", maghrib:"6:14 م", isha:"7:29 م" },
-  "2026-02-15": { hijri:"27 شعبان 1447", fajr:"5:35 ص", sunrise:"6:50 ص", dhuhr:"12:35 م", asr:"3:47 م", maghrib:"6:15 م", isha:"7:29 م" },
-  "2026-02-16": { hijri:"28 شعبان 1447", fajr:"5:34 ص", sunrise:"6:49 ص", dhuhr:"12:35 م", asr:"3:48 م", maghrib:"6:15 م", isha:"7:30 م" },
-  "2026-02-17": { hijri:"29 شعبان 1447", fajr:"5:34 ص", sunrise:"6:48 ص", dhuhr:"12:35 م", asr:"3:48 م", maghrib:"6:16 م", isha:"7:31 م" },
-  "2026-02-18": { hijri:"30 شعبان 1447", fajr:"5:33 ص", sunrise:"6:47 ص", dhuhr:"12:34 م", asr:"3:48 م", maghrib:"6:17 م", isha:"7:31 م" },
-  "2026-02-19": { hijri:"1 رمضان 1447",  fajr:"5:32 ص", sunrise:"6:47 ص", dhuhr:"12:34 م", asr:"3:49 م", maghrib:"6:17 م", isha:"7:32 م" },
-  "2026-02-20": { hijri:"2 رمضان 1447",  fajr:"5:32 ص", sunrise:"6:46 ص", dhuhr:"12:34 م", asr:"3:49 م", maghrib:"6:18 م", isha:"7:32 م" },
-  "2026-02-21": { hijri:"3 رمضان 1447",  fajr:"5:31 ص", sunrise:"6:45 ص", dhuhr:"12:34 م", asr:"3:49 م", maghrib:"6:18 م", isha:"7:33 م" },
-  "2026-02-22": { hijri:"4 رمضان 1447",  fajr:"5:30 ص", sunrise:"6:44 ص", dhuhr:"12:34 م", asr:"3:50 م", maghrib:"6:19 م", isha:"7:33 م" },
-  "2026-02-23": { hijri:"5 رمضان 1447",  fajr:"5:29 ص", sunrise:"6:43 ص", dhuhr:"12:34 م", asr:"3:50 م", maghrib:"6:20 م", isha:"7:34 م" },
-  "2026-02-24": { hijri:"6 رمضان 1447",  fajr:"5:29 ص", sunrise:"6:43 ص", dhuhr:"12:34 م", asr:"3:50 م", maghrib:"6:20 م", isha:"7:34 م" },
-  "2026-02-25": { hijri:"7 رمضان 1447",  fajr:"5:28 ص", sunrise:"6:42 ص", dhuhr:"12:34 م", asr:"3:51 م", maghrib:"6:21 م", isha:"7:35 م" },
-  "2026-02-26": { hijri:"8 رمضان 1447",  fajr:"5:27 ص", sunrise:"6:41 ص", dhuhr:"12:33 م", asr:"3:51 م", maghrib:"6:21 م", isha:"7:35 م" },
-  "2026-02-27": { hijri:"9 رمضان 1447",  fajr:"5:26 ص", sunrise:"6:40 ص", dhuhr:"12:33 م", asr:"3:51 م", maghrib:"6:22 م", isha:"7:36 م" },
-  "2026-02-28": { hijri:"10 رمضان 1447", fajr:"5:25 ص", sunrise:"6:39 ص", dhuhr:"12:33 م", asr:"3:51 م", maghrib:"6:22 م", isha:"7:36 م" },
-
-  // ===== مارس 2026 =====
-  "2026-03-01": { hijri:"11 رمضان 1447", fajr:"5:24 ص", sunrise:"6:38 ص", dhuhr:"12:33 م", asr:"3:51 م", maghrib:"6:23 م", isha:"7:37 م" },
-  "2026-03-02": { hijri:"12 رمضان 1447", fajr:"5:24 ص", sunrise:"6:37 ص", dhuhr:"12:33 م", asr:"3:52 م", maghrib:"6:23 م", isha:"7:37 م" },
-  "2026-03-03": { hijri:"13 رمضان 1447", fajr:"5:23 ص", sunrise:"6:36 ص", dhuhr:"12:33 م", asr:"3:52 م", maghrib:"6:24 م", isha:"7:38 م" },
-  "2026-03-04": { hijri:"14 رمضان 1447", fajr:"5:22 ص", sunrise:"6:35 ص", dhuhr:"12:32 م", asr:"3:52 م", maghrib:"6:24 م", isha:"7:38 م" },
-  "2026-03-05": { hijri:"15 رمضان 1447", fajr:"5:21 ص", sunrise:"6:34 ص", dhuhr:"12:32 م", asr:"3:52 م", maghrib:"6:25 م", isha:"7:39 م" },
-  "2026-03-06": { hijri:"16 رمضان 1447", fajr:"5:20 ص", sunrise:"6:33 ص", dhuhr:"12:32 م", asr:"3:52 م", maghrib:"6:25 م", isha:"7:39 م" },
-  "2026-03-07": { hijri:"17 رمضان 1447", fajr:"5:19 ص", sunrise:"6:32 ص", dhuhr:"12:32 م", asr:"3:52 م", maghrib:"6:26 م", isha:"7:40 م" },
-  "2026-03-08": { hijri:"18 رمضان 1447", fajr:"5:18 ص", sunrise:"6:31 ص", dhuhr:"12:31 م", asr:"3:52 م", maghrib:"6:26 م", isha:"7:40 م" },
-  "2026-03-09": { hijri:"19 رمضان 1447", fajr:"5:17 ص", sunrise:"6:30 ص", dhuhr:"12:31 م", asr:"3:52 م", maghrib:"6:27 م", isha:"7:41 م" },
-  "2026-03-10": { hijri:"20 رمضان 1447", fajr:"5:16 ص", sunrise:"6:29 ص", dhuhr:"12:31 م", asr:"3:53 م", maghrib:"6:27 م", isha:"7:41 م" },
-  "2026-03-11": { hijri:"21 رمضان 1447", fajr:"5:15 ص", sunrise:"6:28 ص", dhuhr:"12:31 م", asr:"3:53 م", maghrib:"6:28 م", isha:"7:42 م" },
-  "2026-03-12": { hijri:"22 رمضان 1447", fajr:"5:14 ص", sunrise:"6:27 ص", dhuhr:"12:30 م", asr:"3:53 م", maghrib:"6:28 م", isha:"7:42 م" },
-  "2026-03-13": { hijri:"23 رمضان 1447", fajr:"5:13 ص", sunrise:"6:26 ص", dhuhr:"12:30 م", asr:"3:53 م", maghrib:"6:29 م", isha:"7:43 م" },
-  "2026-03-14": { hijri:"24 رمضان 1447", fajr:"5:12 ص", sunrise:"6:25 ص", dhuhr:"12:30 م", asr:"3:53 م", maghrib:"6:29 م", isha:"7:43 م" },
-  "2026-03-15": { hijri:"25 رمضان 1447", fajr:"5:11 ص", sunrise:"6:24 ص", dhuhr:"12:30 م", asr:"3:53 م", maghrib:"6:30 م", isha:"7:44 م" },
-  "2026-03-16": { hijri:"26 رمضان 1447", fajr:"5:10 ص", sunrise:"6:23 ص", dhuhr:"12:29 م", asr:"3:53 م", maghrib:"6:30 م", isha:"7:44 م" },
-  "2026-03-17": { hijri:"27 رمضان 1447", fajr:"5:09 ص", sunrise:"6:22 ص", dhuhr:"12:29 م", asr:"3:53 م", maghrib:"6:31 م", isha:"7:44 م" },
-  "2026-03-18": { hijri:"28 رمضان 1447", fajr:"5:08 ص", sunrise:"6:21 ص", dhuhr:"12:29 م", asr:"3:53 م", maghrib:"6:31 م", isha:"7:45 م" },
-  "2026-03-19": { hijri:"29 رمضان 1447", fajr:"5:07 ص", sunrise:"6:20 ص", dhuhr:"12:28 م", asr:"3:53 م", maghrib:"6:32 م", isha:"7:45 م" },
-  "2026-03-20": { hijri:"1 شوال 1447",  fajr:"5:05 ص", sunrise:"6:19 ص", dhuhr:"12:28 م", asr:"3:53 م", maghrib:"6:32 م", isha:"7:46 م" },
-  "2026-03-21": { hijri:"2 شوال 1447",  fajr:"5:04 ص", sunrise:"6:18 ص", dhuhr:"12:28 م", asr:"3:53 م", maghrib:"6:33 م", isha:"7:46 م" },
-  "2026-03-22": { hijri:"3 شوال 1447",  fajr:"5:03 ص", sunrise:"6:17 ص", dhuhr:"12:27 م", asr:"3:52 م", maghrib:"6:33 م", isha:"7:47 م" },
-  "2026-03-23": { hijri:"4 شوال 1447",  fajr:"5:02 ص", sunrise:"6:16 ص", dhuhr:"12:27 م", asr:"3:52 م", maghrib:"6:33 م", isha:"7:48 م" },
-  "2026-03-24": { hijri:"5 شوال 1447",  fajr:"5:01 ص", sunrise:"6:15 ص", dhuhr:"12:27 م", asr:"3:52 م", maghrib:"6:34 م", isha:"7:48 م" },
-  "2026-03-25": { hijri:"6 شوال 1447",  fajr:"5:00 ص", sunrise:"6:14 ص", dhuhr:"12:27 م", asr:"3:52 م", maghrib:"6:34 م", isha:"7:49 م" },
-  "2026-03-26": { hijri:"7 شوال 1447",  fajr:"4:59 ص", sunrise:"6:13 ص", dhuhr:"12:26 م", asr:"3:52 م", maghrib:"6:35 م", isha:"7:49 م" },
-  "2026-03-27": { hijri:"8 شوال 1447",  fajr:"4:58 ص", sunrise:"6:12 ص", dhuhr:"12:26 م", asr:"3:52 م", maghrib:"6:35 م", isha:"7:50 م" },
-  "2026-03-28": { hijri:"9 شوال 1447",  fajr:"4:57 ص", sunrise:"6:11 ص", dhuhr:"12:26 م", asr:"3:52 م", maghrib:"6:36 م", isha:"7:50 م" },
-  "2026-03-29": { hijri:"10 شوال 1447", fajr:"4:55 ص", sunrise:"6:10 ص", dhuhr:"12:25 م", asr:"3:52 م", maghrib:"6:36 م", isha:"7:51 م" },
-  "2026-03-30": { hijri:"11 شوال 1447", fajr:"4:54 ص", sunrise:"6:09 ص", dhuhr:"12:25 م", asr:"3:52 م", maghrib:"6:37 م", isha:"7:51 م" },
-  "2026-03-31": { hijri:"12 شوال 1447", fajr:"4:53 ص", sunrise:"6:08 ص", dhuhr:"12:25 م", asr:"3:51 م", maghrib:"6:37 م", isha:"7:52 م" },
-};
-
-/* ========= أدوات وقت/تاريخ ========= */
-function pad2(n){ return String(n).padStart(2,"0"); }
-
-function getDubaiNow(){
-  // طريقة آمنة تعطي وقت دبي حتى لو جهاز المستخدم مختلف
-  // نحولها إلى "أجزاء" ثم نعيد بناء Date محلية مكافئة
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: TIMEZONE,
-    year:"numeric", month:"2-digit", day:"2-digit",
-    hour:"2-digit", minute:"2-digit", second:"2-digit",
-    hour12:false
-  }).formatToParts(new Date());
-  const m = Object.fromEntries(parts.map(p=>[p.type,p.value]));
-  return {
-    y: +m.year, mo:+m.month, d:+m.day,
-    hh:+m.hour, mm:+m.minute, ss:+m.second
-  };
-}
-
-function ymdFromDubai(){
-  const n = getDubaiNow();
-  return `${n.y}-${pad2(n.mo)}-${pad2(n.d)}`;
-}
-
-function toMinutesFromArabic(timeStr){
-  // "5:29 ص" / "12:34 م"
-  const s = (timeStr || "").trim();
-  const m = s.match(/^(\d{1,2}):(\d{2})\s*(ص|م)$/);
-  if(!m) return null;
-  let h = parseInt(m[1],10);
-  const min = parseInt(m[2],10);
-  const ap = m[3];
-  if (ap === "ص"){
-    if (h === 12) h = 0;
-  } else { // "م"
-    if (h !== 12) h += 12;
-  }
-  return h*60 + min;
-}
-
-function fmt24ToDisplay(hh, mm){
-  // عرض ناعم: 12-hour عربي
-  const isPM = hh >= 12;
-  let h12 = hh % 12; if (h12 === 0) h12 = 12;
-  return { t:`${h12}:${pad2(mm)}`, ap: isPM ? "م" : "ص" };
-}
-
-function secondsUntil(targetMin, nowMin, nowSec){
-  // target within same day; if passed -> until next day
-  let diffMin = targetMin - nowMin;
-  if (diffMin < 0) diffMin += 24*60;
-  let diffSec = diffMin*60 - nowSec;
-  if (diffSec < 0) diffSec = 0;
-  return diffSec;
-}
-
-function formatHMS(totalSec){
-  const h = Math.floor(totalSec/3600);
-  const m = Math.floor((totalSec%3600)/60);
-  const s = totalSec%60;
-  return `${pad2(h)}:${pad2(m)}:${pad2(s)}`;
-}
-
-/* ========= تعبئة واجهة ========= */
-const el = (id)=>document.getElementById(id);
-
-function setLogo(){
-  const logo = el("logo");
-  // decode is ok: GitHub pages supports encoded spaces
-  logo.src = LOGO_SRC;
-}
-
-function setPrayerTimes(row){
-  el("fajr").textContent = row ? row.fajr.replace(" ص","").replace(" م","") : "--:--";
-  el("sunrise").textContent = row ? row.sunrise.replace(" ص","").replace(" م","") : "--:--";
-  el("dhuhr").textContent = row ? row.dhuhr.replace(" ص","").replace(" م","") : "--:--";
-  el("asr").textContent = row ? row.asr.replace(" ص","").replace(" م","") : "--:--";
-  el("maghrib").textContent = row ? row.maghrib.replace(" ص","").replace(" م","") : "--:--";
-  el("isha").textContent = row ? row.isha.replace(" ص","").replace(" م","") : "--:--";
-}
-
-function setDateLine(ymd, row){
-  // يوم الأسبوع + التاريخ الميلادي + الهجري + رمضان
+function nowSharjah(){
   const now = new Date();
-  const ar = new Intl.DateTimeFormat("ar-AE", {
-    timeZone: TIMEZONE,
-    weekday:"long", year:"numeric", month:"long", day:"numeric"
-  }).format(now);
-
-  const hijri = row?.hijri ? row.hijri : "--";
-  el("dateLine").textContent = `${ar} | ${hijri}`;
+  const utc = now.getTime() + now.getTimezoneOffset()*60000;
+  return new Date(utc + SHARJAH_OFFSET_HOURS*3600000);
 }
 
-function setRamadanBadge(row){
-  const badge = el("ramadanBadge");
-  if(!row || !row.hijri){ badge.style.display="none"; return; }
+function pad2(n){ return String(n).padStart(2,'0'); }
+function fmtHM(d){ return pad2(d.getHours()) + ":" + pad2(d.getMinutes()); }
+function fmtHMS(sec){
+  sec = Math.max(0, Math.floor(sec));
+  const h = Math.floor(sec/3600);
+  const m = Math.floor((sec%3600)/60);
+  const s = sec%60;
+  return pad2(h)+":"+pad2(m)+":"+pad2(s);
+}
+function ymd(d){
+  return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate());
+}
+const weekdays = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 
-  // hijri like "7 رمضان 1447"
-  const m = row.hijri.match(/^(\d{1,2})\s+رمضان\s+/);
-  if(m){
-    badge.textContent = `اليوم ${m[1]} من رمضان`;
-    badge.style.display="inline-flex";
-  }else{
-    badge.style.display="none";
+/* =========================
+   جدول حكومة الشارقة (فبراير + مارس 2026)
+   ========================= */
+const SCHEDULE = [
+  /* Feb 2026 */
+  {date:"2026-02-01", hijri:"13 شعبان 1447", fajr:"05:42", sunrise:"06:58", dhuhr:"12:34", asr:"15:41", maghrib:"18:05", isha:"19:21"},
+  {date:"2026-02-02", hijri:"14 شعبان 1447", fajr:"05:42", sunrise:"06:58", dhuhr:"12:34", asr:"15:41", maghrib:"18:06", isha:"19:22"},
+  {date:"2026-02-03", hijri:"15 شعبان 1447", fajr:"05:41", sunrise:"06:57", dhuhr:"12:34", asr:"15:42", maghrib:"18:07", isha:"19:23"},
+  {date:"2026-02-04", hijri:"16 شعبان 1447", fajr:"05:41", sunrise:"06:57", dhuhr:"12:34", asr:"15:42", maghrib:"18:07", isha:"19:23"},
+  {date:"2026-02-05", hijri:"17 شعبان 1447", fajr:"05:40", sunrise:"06:56", dhuhr:"12:35", asr:"15:43", maghrib:"18:08", isha:"19:24"},
+  {date:"2026-02-06", hijri:"18 شعبان 1447", fajr:"05:40", sunrise:"06:55", dhuhr:"12:35", asr:"15:43", maghrib:"18:09", isha:"19:24"},
+  {date:"2026-02-07", hijri:"19 شعبان 1447", fajr:"05:40", sunrise:"06:55", dhuhr:"12:35", asr:"15:44", maghrib:"18:10", isha:"19:25"},
+  {date:"2026-02-08", hijri:"20 شعبان 1447", fajr:"05:39", sunrise:"06:54", dhuhr:"12:35", asr:"15:44", maghrib:"18:10", isha:"19:26"},
+  {date:"2026-02-09", hijri:"21 شعبان 1447", fajr:"05:39", sunrise:"06:54", dhuhr:"12:35", asr:"15:45", maghrib:"18:11", isha:"19:26"},
+  {date:"2026-02-10", hijri:"22 شعبان 1447", fajr:"05:38", sunrise:"06:53", dhuhr:"12:35", asr:"15:45", maghrib:"18:12", isha:"19:27"},
+  {date:"2026-02-11", hijri:"23 شعبان 1447", fajr:"05:37", sunrise:"06:52", dhuhr:"12:35", asr:"15:46", maghrib:"18:12", isha:"19:27"},
+  {date:"2026-02-12", hijri:"24 شعبان 1447", fajr:"05:37", sunrise:"06:52", dhuhr:"12:35", asr:"15:46", maghrib:"18:13", isha:"19:28"},
+  {date:"2026-02-13", hijri:"25 شعبان 1447", fajr:"05:36", sunrise:"06:51", dhuhr:"12:35", asr:"15:47", maghrib:"18:14", isha:"19:28"},
+  {date:"2026-02-14", hijri:"26 شعبان 1447", fajr:"05:36", sunrise:"06:50", dhuhr:"12:35", asr:"15:47", maghrib:"18:14", isha:"19:29"},
+  {date:"2026-02-15", hijri:"27 شعبان 1447", fajr:"05:35", sunrise:"06:50", dhuhr:"12:35", asr:"15:47", maghrib:"18:15", isha:"19:29"},
+  {date:"2026-02-16", hijri:"28 شعبان 1447", fajr:"05:34", sunrise:"06:49", dhuhr:"12:35", asr:"15:48", maghrib:"18:15", isha:"19:30"},
+  {date:"2026-02-17", hijri:"29 شعبان 1447", fajr:"05:34", sunrise:"06:48", dhuhr:"12:35", asr:"15:48", maghrib:"18:16", isha:"19:31"},
+  {date:"2026-02-18", hijri:"30 شعبان 1447", fajr:"05:33", sunrise:"06:47", dhuhr:"12:34", asr:"15:48", maghrib:"18:17", isha:"19:31"},
+  {date:"2026-02-19", hijri:"1 رمضان 1447", fajr:"05:32", sunrise:"06:47", dhuhr:"12:34", asr:"15:49", maghrib:"18:17", isha:"19:32"},
+  {date:"2026-02-20", hijri:"2 رمضان 1447", fajr:"05:32", sunrise:"06:46", dhuhr:"12:34", asr:"15:49", maghrib:"18:18", isha:"19:32"},
+  {date:"2026-02-21", hijri:"3 رمضان 1447", fajr:"05:31", sunrise:"06:45", dhuhr:"12:34", asr:"15:49", maghrib:"18:18", isha:"19:33"},
+  {date:"2026-02-22", hijri:"4 رمضان 1447", fajr:"05:30", sunrise:"06:44", dhuhr:"12:34", asr:"15:50", maghrib:"18:19", isha:"19:33"},
+  {date:"2026-02-23", hijri:"5 رمضان 1447", fajr:"05:29", sunrise:"06:43", dhuhr:"12:34", asr:"15:50", maghrib:"18:20", isha:"19:34"},
+  {date:"2026-02-24", hijri:"6 رمضان 1447", fajr:"05:29", sunrise:"06:43", dhuhr:"12:34", asr:"15:50", maghrib:"18:20", isha:"19:34"},
+  {date:"2026-02-25", hijri:"7 رمضان 1447", fajr:"05:28", sunrise:"06:42", dhuhr:"12:34", asr:"15:51", maghrib:"18:21", isha:"19:35"},
+  {date:"2026-02-26", hijri:"8 رمضان 1447", fajr:"05:27", sunrise:"06:41", dhuhr:"12:33", asr:"15:51", maghrib:"18:21", isha:"19:35"},
+  {date:"2026-02-27", hijri:"9 رمضان 1447", fajr:"05:26", sunrise:"06:40", dhuhr:"12:33", asr:"15:51", maghrib:"18:22", isha:"19:36"},
+  {date:"2026-02-28", hijri:"10 رمضان 1447", fajr:"05:25", sunrise:"06:39", dhuhr:"12:33", asr:"15:51", maghrib:"18:22", isha:"19:36"},
+
+  /* Mar 2026 */
+  {date:"2026-03-01", hijri:"11 رمضان 1447", fajr:"05:24", sunrise:"06:38", dhuhr:"12:33", asr:"15:51", maghrib:"18:23", isha:"19:37"},
+  {date:"2026-03-02", hijri:"12 رمضان 1447", fajr:"05:24", sunrise:"06:37", dhuhr:"12:33", asr:"15:52", maghrib:"18:23", isha:"19:37"},
+  {date:"2026-03-03", hijri:"13 رمضان 1447", fajr:"05:23", sunrise:"06:36", dhuhr:"12:33", asr:"15:52", maghrib:"18:24", isha:"19:38"},
+  {date:"2026-03-04", hijri:"14 رمضان 1447", fajr:"05:22", sunrise:"06:35", dhuhr:"12:32", asr:"15:52", maghrib:"18:24", isha:"19:38"},
+  {date:"2026-03-05", hijri:"15 رمضان 1447", fajr:"05:21", sunrise:"06:34", dhuhr:"12:32", asr:"15:52", maghrib:"18:25", isha:"19:39"},
+  {date:"2026-03-06", hijri:"16 رمضان 1447", fajr:"05:20", sunrise:"06:33", dhuhr:"12:32", asr:"15:52", maghrib:"18:25", isha:"19:39"},
+  {date:"2026-03-07", hijri:"17 رمضان 1447", fajr:"05:19", sunrise:"06:32", dhuhr:"12:32", asr:"15:52", maghrib:"18:26", isha:"19:40"},
+  {date:"2026-03-08", hijri:"18 رمضان 1447", fajr:"05:18", sunrise:"06:31", dhuhr:"12:31", asr:"15:52", maghrib:"18:26", isha:"19:40"},
+  {date:"2026-03-09", hijri:"19 رمضان 1447", fajr:"05:17", sunrise:"06:30", dhuhr:"12:31", asr:"15:52", maghrib:"18:27", isha:"19:41"},
+  {date:"2026-03-10", hijri:"20 رمضان 1447", fajr:"05:16", sunrise:"06:29", dhuhr:"12:31", asr:"15:53", maghrib:"18:27", isha:"19:41"},
+  {date:"2026-03-11", hijri:"21 رمضان 1447", fajr:"05:15", sunrise:"06:28", dhuhr:"12:31", asr:"15:53", maghrib:"18:28", isha:"19:42"},
+  {date:"2026-03-12", hijri:"22 رمضان 1447", fajr:"05:14", sunrise:"06:27", dhuhr:"12:30", asr:"15:53", maghrib:"18:28", isha:"19:42"},
+  {date:"2026-03-13", hijri:"23 رمضان 1447", fajr:"05:13", sunrise:"06:26", dhuhr:"12:30", asr:"15:53", maghrib:"18:29", isha:"19:43"},
+  {date:"2026-03-14", hijri:"24 رمضان 1447", fajr:"05:12", sunrise:"06:25", dhuhr:"12:30", asr:"15:53", maghrib:"18:29", isha:"19:43"},
+  {date:"2026-03-15", hijri:"25 رمضان 1447", fajr:"05:11", sunrise:"06:24", dhuhr:"12:30", asr:"15:53", maghrib:"18:30", isha:"19:44"},
+  {date:"2026-03-16", hijri:"26 رمضان 1447", fajr:"05:10", sunrise:"06:23", dhuhr:"12:29", asr:"15:53", maghrib:"18:30", isha:"19:44"},
+  {date:"2026-03-17", hijri:"27 رمضان 1447", fajr:"05:09", sunrise:"06:22", dhuhr:"12:29", asr:"15:53", maghrib:"18:31", isha:"19:44"},
+  {date:"2026-03-18", hijri:"28 رمضان 1447", fajr:"05:08", sunrise:"06:21", dhuhr:"12:29", asr:"15:53", maghrib:"18:31", isha:"19:45"},
+  {date:"2026-03-19", hijri:"29 رمضان 1447", fajr:"05:07", sunrise:"06:20", dhuhr:"12:28", asr:"15:53", maghrib:"18:32", isha:"19:45"},
+  {date:"2026-03-20", hijri:"1 شوال 1447", fajr:"05:05", sunrise:"06:19", dhuhr:"12:28", asr:"15:53", maghrib:"18:32", isha:"19:46"},
+  {date:"2026-03-21", hijri:"2 شوال 1447", fajr:"05:04", sunrise:"06:18", dhuhr:"12:28", asr:"15:53", maghrib:"18:33", isha:"19:46"},
+  {date:"2026-03-22", hijri:"3 شوال 1447", fajr:"05:03", sunrise:"06:17", dhuhr:"12:27", asr:"15:52", maghrib:"18:33", isha:"19:47"},
+  {date:"2026-03-23", hijri:"4 شوال 1447", fajr:"05:02", sunrise:"06:16", dhuhr:"12:27", asr:"15:52", maghrib:"18:33", isha:"19:48"},
+  {date:"2026-03-24", hijri:"5 شوال 1447", fajr:"05:01", sunrise:"06:15", dhuhr:"12:27", asr:"15:52", maghrib:"18:34", isha:"19:48"},
+  {date:"2026-03-25", hijri:"6 شوال 1447", fajr:"05:00", sunrise:"06:14", dhuhr:"12:27", asr:"15:52", maghrib:"18:34", isha:"19:49"},
+  {date:"2026-03-26", hijri:"7 شوال 1447", fajr:"04:59", sunrise:"06:13", dhuhr:"12:26", asr:"15:52", maghrib:"18:35", isha:"19:49"},
+  {date:"2026-03-27", hijri:"8 شوال 1447", fajr:"04:58", sunrise:"06:12", dhuhr:"12:26", asr:"15:52", maghrib:"18:35", isha:"19:50"},
+  {date:"2026-03-28", hijri:"9 شوال 1447", fajr:"04:57", sunrise:"06:11", dhuhr:"12:26", asr:"15:52", maghrib:"18:36", isha:"19:50"},
+  {date:"2026-03-29", hijri:"10 شوال 1447", fajr:"04:55", sunrise:"06:10", dhuhr:"12:25", asr:"15:52", maghrib:"18:36", isha:"19:51"},
+  {date:"2026-03-30", hijri:"11 شوال 1447", fajr:"04:54", sunrise:"06:09", dhuhr:"12:25", asr:"15:52", maghrib:"18:37", isha:"19:51"},
+  {date:"2026-03-31", hijri:"12 شوال 1447", fajr:"04:53", sunrise:"06:08", dhuhr:"12:25", asr:"15:51", maghrib:"18:37", isha:"19:52"},
+];
+
+const MAP = new Map(SCHEDULE.map(x => [x.date, x]));
+
+function parseTodayTimeToDate(baseDate, hhmm){
+  const [h,m] = hhmm.split(":").map(Number);
+  return new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate(), h, m, 0, 0);
+}
+
+function update(){
+  const now = nowSharjah();
+  const key = ymd(now);
+  const row = MAP.get(key);
+
+  // الساعة (مع ص/م بشكل واضح)
+  const h = now.getHours();
+  const ampm = h < 12 ? "ص" : "م";
+  const h12 = ((h + 11) % 12) + 1;
+  document.getElementById("clock").innerHTML = `<small>${ampm}</small>${h12}:${pad2(now.getMinutes())}`;
+
+  // التاريخ
+  const weekday = weekdays[now.getDay()];
+  if(row){
+    const g = `${weekday}، ${now.getDate()}-${pad2(now.getMonth()+1)}-${now.getFullYear()}`;
+    const dateText = `${g} | ${row.hijri}`;
+    document.getElementById("dateText").textContent = dateText;
+
+    // شارة رمضان (اليوم X من رمضان) فقط إذا اليوم رمضان
+    const badgeEl = document.getElementById("ramadanBadge");
+    if(row.hijri.includes("رمضان")){
+      const m = row.hijri.match(/^(\d+)\s+رمضان/);
+      const day = m ? m[1] : "";
+      badgeEl.style.display = "inline-block";
+      badgeEl.textContent = `اليوم ${day} من رمضان`;
+    } else {
+      badgeEl.style.display = "none";
+    }
+
+    // مواقيت
+    document.getElementById("tFajr").textContent = row.fajr;
+    document.getElementById("tSunrise").textContent = row.sunrise;
+    document.getElementById("tDhuhr").textContent = row.dhuhr;
+    document.getElementById("tAsr").textContent = row.asr;
+    document.getElementById("tMaghrib").textContent = row.maghrib;
+    document.getElementById("tIsha").textContent = row.isha;
+
+    // الصلاة القادمة
+    const order = [
+      {name:"الفجر", key:"fajr"},
+      {name:"الظهر", key:"dhuhr"},
+      {name:"العصر", key:"asr"},
+      {name:"المغرب", key:"maghrib"},
+      {name:"العشاء", key:"isha"},
+    ];
+
+    let nextName = null;
+    let nextTime = null;
+
+    for(const p of order){
+      const t = parseTodayTimeToDate(now, row[p.key]);
+      if(now < t){
+        nextName = p.name;
+        nextTime = t;
+        break;
+      }
+    }
+
+    // إذا بعد العشاء -> الفجر بكرة
+    if(!nextTime){
+      const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 0,0,0,0);
+      const r2 = MAP.get(ymd(tomorrow));
+      if(r2){
+        nextName = "الفجر";
+        nextTime = parseTodayTimeToDate(tomorrow, r2.fajr);
+      }
+    }
+
+    const nextMeta = document.getElementById("nextMeta");
+    const nextCount = document.getElementById("nextCount");
+    if(nextTime){
+      nextMeta.textContent = `${nextName} — الوقت: ${pad2(nextTime.getHours())}:${pad2(nextTime.getMinutes())}`;
+      nextCount.textContent = fmtHMS((nextTime - now)/1000);
+    } else {
+      nextMeta.textContent = "--";
+      nextCount.textContent = "--:--:--";
+    }
+
+    // الإفطار (المغرب)
+    const mag = parseTodayTimeToDate(now, row.maghrib);
+    const iftarMeta = document.getElementById("iftarMeta");
+    const iftarCount = document.getElementById("iftarCount");
+    iftarMeta.textContent = `وقت المغرب: ${row.maghrib}`;
+    if(now < mag){
+      iftarCount.textContent = fmtHMS((mag - now)/1000);
+    } else {
+      iftarCount.textContent = "00:00:00";
+    }
+
+  } else {
+    document.getElementById("dateText").textContent = `${weekdays[now.getDay()]}، ${key}`;
   }
 }
 
-function computeNextPrayer(row, nowMin, nowSec){
-  const order = [
-    ["الفجر","fajr"],
-    ["الظهر","dhuhr"],
-    ["العصر","asr"],
-    ["المغرب","maghrib"],
-    ["العشاء","isha"],
-  ];
+// تحديث كل ثانية
+setInterval(update, 1000);
+update();
 
-  const times = order
-    .map(([name,key])=>({ name, key, mins: toMinutesFromArabic(row[key]) }))
-    .filter(x=>x.mins!==null);
-
-  // find next in same day, else first tomorrow
-  let next = times.find(t=>t.mins > nowMin || (t.mins===nowMin && nowSec===0));
-  if(!next) next = times[0];
-
-  const sec = secondsUntil(next.mins, nowMin, nowSec);
-  return { nextName: next.name, nextKey: next.key, seconds: sec, nextMins: next.mins };
-}
-
-function tick(){
-  const n = getDubaiNow();
-  const nowMin = n.hh*60 + n.mm;
-
-  // clock
-  const disp = fmt24ToDisplay(n.hh, n.mm);
-  el("clockTime").textContent = disp.t;
-  el("clockAmPm").textContent = disp.ap;
-
-  const ymd = `${n.y}-${pad2(n.mo)}-${pad2(n.d)}`;
-  const row = PRAYER_TABLE[ymd];
-
-  setPrayerTimes(row);
-  setDateLine(ymd, row);
-  setRamadanBadge(row);
-
-  if(!row){
-    el("iftarSub").textContent = "وقت المغرب: --:--";
-    el("iftarCountdown").textContent = "--:--:--";
-    el("nextSub").textContent = "--";
-    el("nextCountdown").textContent = "--:--:--";
-    return;
+// تحديث تلقائي بعد منتصف الليل (ليشمل يوم جديد)
+setInterval(() => {
+  const n = nowSharjah();
+  if(n.getHours()===0 && n.getMinutes()===1 && n.getSeconds()===0){
+    location.reload();
   }
-
-  // Iftar (Maghrib)
-  const magMin = toMinutesFromArabic(row.maghrib);
-  const iftarSec = secondsUntil(magMin, nowMin, n.ss);
-  el("iftarSub").textContent = `وقت المغرب: ${row.maghrib.replace(" ص","").replace(" م","")}`;
-  el("iftarCountdown").textContent = formatHMS(iftarSec);
-
-  // Next prayer
-  const nxt = computeNextPrayer(row, nowMin, n.ss);
-  const nextTimeStr = row[nxt.nextKey].replace(" ص","").replace(" م","");
-  el("nextSub").textContent = `${nxt.nextName} — الوقت: ${nextTimeStr}`;
-  el("nextCountdown").textContent = formatHMS(nxt.seconds);
-}
-
-/* ========= تشغيل ========= */
-setLogo();
-tick();
-setInterval(tick, 1000);
+}, 1000);
 </script>
 </body>
 </html>
