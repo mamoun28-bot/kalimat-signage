@@ -8,7 +8,6 @@
 
   <style>
     :root{
-      /* مقاسات مضغوطة 32" */
       --pad: 18px;
       --gap: 14px;
       --radius: 18px;
@@ -20,23 +19,22 @@
 
       --gold1: #b9851f;
       --gold2: #f4df9b;
-      --gold3: #8a6618;
 
       --shadow: 0 10px 26px rgba(0,0,0,.08);
       --shadow-soft: 0 8px 18px rgba(0,0,0,.06);
       --border: rgba(17,24,39,.08);
 
-      --clock: 78px;     /* الساعة */
+      --clock: 78px;
       --ampm: 22px;
-      --title: 32px;     /* العنوان */
+      --title: 32px;
       --sub: 18px;
 
-      --banner: 34px;    /* نص الشريط */
+      --banner: 34px;
       --bannerPadY: 12px;
       --bannerPadX: 18px;
 
-      --pname: 24px;     /* اسم الصلاة */
-      --ptime: 44px;     /* وقت الصلاة */
+      --pname: 24px;
+      --ptime: 44px;
 
       --bigTitle: 22px;
       --bigCount: 64px;
@@ -44,11 +42,11 @@
       --footer: 14px;
     }
 
-    /* نسخة أضيق (إذا احتجنا لاحقاً) */
-    .ultra-compact{
+    /* عند الشاشات الأقصر (غالباً Pickcel Preview / Android WebView) */
+    .tight{
       --pad: 14px;
       --gap: 12px;
-      --clock: 70px;
+      --clock: 68px;
       --title: 30px;
       --banner: 30px;
       --ptime: 40px;
@@ -62,10 +60,9 @@
       background: var(--bg);
       color: var(--text);
       font-family: Tahoma, Arial, "Segoe UI", sans-serif;
-      overflow:hidden; /* مهم للـ signage */
+      overflow:hidden;
     }
 
-    /* خلفية خفيفة بدون أي طبقات ذهبية تغطي الصفحة */
     .bg{
       position: fixed;
       inset: 0;
@@ -77,9 +74,25 @@
       z-index: 0;
     }
 
-    .frame{
+    /* ✅ Auto-Fit wrapper */
+    .fitStage{
       position: relative;
       z-index: 1;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .fitRoot{
+      position:absolute;
+      top:0;
+      right:0;
+      width: 100vw;
+      height: 100vh;
+      transform-origin: top right;
+      transform: scale(var(--fitScale, 1));
+    }
+
+    .frame{
       height: 100vh;
       padding: var(--pad);
       display: flex;
@@ -101,7 +114,6 @@
       overflow:hidden;
     }
 
-    /* الهيدر */
     .top{
       display:flex;
       align-items:flex-start;
@@ -119,7 +131,6 @@
     .title{
       font-size: var(--title);
       font-weight: 800;
-      letter-spacing: .2px;
       margin:0;
       line-height: 1.15;
     }
@@ -172,7 +183,6 @@
       transform: translateY(-6px);
     }
 
-    /* سطر التاريخ */
     .dateRow{
       background: rgba(255,255,255,.85);
       border: 1px solid var(--border);
@@ -194,7 +204,6 @@
     }
 
     .badge{
-      flex: 0 0 auto;
       padding: 10px 16px;
       border-radius: 999px;
       font-weight: 900;
@@ -204,9 +213,9 @@
       background: linear-gradient(90deg, var(--gold1), var(--gold2));
       box-shadow: 0 10px 18px rgba(185,133,31,.20);
       white-space: nowrap;
+      flex: 0 0 auto;
     }
 
-    /* البانر الذهبي */
     .banner{
       position: relative;
       border-radius: 20px;
@@ -219,7 +228,7 @@
       box-shadow: var(--shadow);
       border: 1px solid rgba(0,0,0,.08);
       overflow:hidden;
-      z-index: 2; /* حتى ما يصير تداخل */
+      z-index: 2;
     }
     .banner::after{
       content:"";
@@ -231,7 +240,6 @@
       mix-blend-mode: screen;
     }
 
-    /* شبكة مواقيت الصلاة */
     .grid{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
@@ -242,19 +250,18 @@
       background: rgba(255,255,255,.88);
       border: 1px solid var(--border);
       border-radius: var(--card-radius);
-      padding: 18px 18px;
+      padding: 16px 18px;
       box-shadow: var(--shadow-soft);
       display:flex;
       flex-direction: column;
       justify-content:center;
       align-items:center;
-      min-height: 122px; /* مضغوط */
+      min-height: 112px;
     }
     .pname{
       font-size: var(--pname);
       font-weight: 900;
       margin: 0 0 10px 0;
-      color:#111827;
     }
     .ptime{
       font-size: var(--ptime);
@@ -263,7 +270,6 @@
       letter-spacing: .5px;
     }
 
-    /* أسفل: عدادين */
     .bottom{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -275,34 +281,32 @@
       background: rgba(255,255,255,.88);
       border: 1px solid var(--border);
       border-radius: 22px;
-      padding: 16px 18px;
+      padding: 14px 16px;
       box-shadow: var(--shadow-soft);
-      min-height: 150px;
+      min-height: 136px;
       display:flex;
       flex-direction: column;
       justify-content: center;
-      position: relative;
       overflow:hidden;
     }
     .bigHeader{
       display:flex;
       align-items:flex-start;
       justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 8px;
+      gap: 10px;
+      margin-bottom: 6px;
     }
     .bigTitle{
       font-size: var(--bigTitle);
       font-weight: 900;
       margin:0;
+      white-space: nowrap;
     }
     .bigMeta{
       font-size: 16px;
       color: var(--muted);
       font-weight: 800;
       margin: 2px 0 0 0;
-      text-align:left;
-      direction: rtl;
       white-space: nowrap;
     }
     .count{
@@ -311,6 +315,7 @@
       letter-spacing: 1px;
       text-align:center;
       margin: 0;
+      white-space: nowrap;
     }
 
     .footer{
@@ -321,103 +326,79 @@
       margin-top: 2px;
       user-select:none;
     }
-
-    /* تحسينات للـ WebView/Android */
-    @media (max-width: 1400px){
-      :root{
-        --clock: 68px;
-        --title: 30px;
-        --banner: 30px;
-        --ptime: 40px;
-        --bigCount: 56px;
-      }
-      .logoWrap{ width:78px; height:78px; }
-      .logoWrap img{ width:70px; height:70px; }
-      .card{ min-height: 112px; }
-      .big{ min-height: 140px; }
-    }
   </style>
 </head>
 
 <body>
   <div class="bg"></div>
 
-  <div class="frame">
-    <div class="outer" id="app">
-      <!-- Top -->
-      <div class="top">
-        <div class="leftTop">
-          <h1 class="title">مواقيت الصلاة - إمارة الشارقة</h1>
-          <p class="subtitle">عرض مناسب لشاشة الاستقبال</p>
-        </div>
-
-        <div class="rightTop">
-          <div class="logoWrap">
-            <img src="logo.png" alt="Kalimat Logo" />
-          </div>
-          <div class="clock" id="clock">
-            <span id="clockTime">--:--</span>
-            <span class="ampm" id="clockAmPm">--</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Date Row -->
-      <div class="dateRow">
-        <div class="dateText" id="dateText">--</div>
-        <div class="badge" id="ramadanBadge">رمضان</div>
-      </div>
-
-      <!-- Banner -->
-      <div class="banner" id="bannerText">
-        مركز كلمات للتأهيل وعلاج النطق يتمنى لكم صياماً مقبولاً وإفطاراً هنيئاً 🌙
-      </div>
-
-      <!-- Prayer Times -->
-      <div class="grid" id="prayerGrid">
-        <div class="card"><p class="pname">الفجر</p><p class="ptime" id="fajr">--:--</p></div>
-        <div class="card"><p class="pname">الشروق</p><p class="ptime" id="sunrise">--:--</p></div>
-        <div class="card"><p class="pname">الظهر</p><p class="ptime" id="dhuhr">--:--</p></div>
-        <div class="card"><p class="pname">العصر</p><p class="ptime" id="asr">--:--</p></div>
-        <div class="card"><p class="pname">المغرب</p><p class="ptime" id="maghrib">--:--</p></div>
-        <div class="card"><p class="pname">العشاء</p><p class="ptime" id="isha">--:--</p></div>
-      </div>
-
-      <!-- Bottom Counters -->
-      <div class="bottom">
-        <div class="big">
-          <div class="bigHeader">
-            <div>
-              <p class="bigTitle" id="iftarTitle">وقت الإفطار (المغرب)</p>
+  <!-- ✅ Auto-Fit Stage -->
+  <div class="fitStage">
+    <div class="fitRoot" id="fitRoot">
+      <div class="frame">
+        <div class="outer" id="app">
+          <div class="top">
+            <div class="leftTop">
+              <h1 class="title">مواقيت الصلاة - إمارة الشارقة</h1>
+              <p class="subtitle">عرض مناسب لشاشة الاستقبال</p>
             </div>
-            <p class="bigMeta" id="iftarMeta">--</p>
-          </div>
-          <p class="count" id="iftarCount">--:--:--</p>
-        </div>
 
-        <div class="big">
-          <div class="bigHeader">
-            <div>
-              <p class="bigTitle" id="nextTitle">الصلاة القادمة</p>
+            <div class="rightTop">
+              <div class="logoWrap">
+                <img src="logo.png" alt="Kalimat Logo" />
+              </div>
+              <div class="clock" id="clock">
+                <span id="clockTime">--:--</span>
+                <span class="ampm" id="clockAmPm">--</span>
+              </div>
             </div>
-            <p class="bigMeta" id="nextMeta">--</p>
           </div>
-          <p class="count" id="nextCount">--:--:--</p>
+
+          <div class="dateRow">
+            <div class="dateText" id="dateText">--</div>
+            <div class="badge" id="ramadanBadge">رمضان</div>
+          </div>
+
+          <div class="banner" id="bannerText">
+            مركز كلمات للتأهيل وعلاج النطق يتمنى لكم صياماً مقبولاً وإفطاراً هنيئاً 🌙
+          </div>
+
+          <div class="grid" id="prayerGrid">
+            <div class="card"><p class="pname">الفجر</p><p class="ptime" id="fajr">--:--</p></div>
+            <div class="card"><p class="pname">الشروق</p><p class="ptime" id="sunrise">--:--</p></div>
+            <div class="card"><p class="pname">الظهر</p><p class="ptime" id="dhuhr">--:--</p></div>
+            <div class="card"><p class="pname">العصر</p><p class="ptime" id="asr">--:--</p></div>
+            <div class="card"><p class="pname">المغرب</p><p class="ptime" id="maghrib">--:--</p></div>
+            <div class="card"><p class="pname">العشاء</p><p class="ptime" id="isha">--:--</p></div>
+          </div>
+
+          <div class="bottom">
+            <div class="big">
+              <div class="bigHeader">
+                <p class="bigTitle" id="iftarTitle">وقت الإفطار (المغرب)</p>
+                <p class="bigMeta" id="iftarMeta">--</p>
+              </div>
+              <p class="count" id="iftarCount">--:--:--</p>
+            </div>
+
+            <div class="big">
+              <div class="bigHeader">
+                <p class="bigTitle" id="nextTitle">الصلاة القادمة</p>
+                <p class="bigMeta" id="nextMeta">--</p>
+              </div>
+              <p class="count" id="nextCount">--:--:--</p>
+            </div>
+          </div>
+
+          <div class="footer">جدول ثابت مطابق لبيانات حكومة الشارقة (فبراير + مارس 2026)</div>
         </div>
       </div>
-
-      <div class="footer">جدول ثابت مطابق لبيانات حكومة الشارقة (فبراير + مارس 2026)</div>
     </div>
   </div>
 
 <script>
-/* =========================
-   جدول ثابت (فبراير + مارس 2026)
-   المصدر: البيانات التي أرسلتِها (الشارقة)
-   ========================= */
-
+/* ===== جدول ثابت فبراير + مارس 2026 (كما أرسلتيه) ===== */
 const TABLE = [
-  // ====== فبراير 2026 ======
   {d:"2026-02-01", h:"13 شعبان 1447", fajr:"5:42 ص", sunrise:"6:58 ص", dhuhr:"12:34 م", asr:"3:41 م", maghrib:"6:05 م", isha:"7:21 م"},
   {d:"2026-02-02", h:"14 شعبان 1447", fajr:"5:42 ص", sunrise:"6:58 ص", dhuhr:"12:34 م", asr:"3:41 م", maghrib:"6:06 م", isha:"7:22 م"},
   {d:"2026-02-03", h:"15 شعبان 1447", fajr:"5:41 ص", sunrise:"6:57 ص", dhuhr:"12:34 م", asr:"3:42 م", maghrib:"6:07 م", isha:"7:23 م"},
@@ -447,7 +428,6 @@ const TABLE = [
   {d:"2026-02-27", h:"9 رمضان 1447", fajr:"5:26 ص", sunrise:"6:40 ص", dhuhr:"12:33 م", asr:"3:51 م", maghrib:"6:22 م", isha:"7:36 م"},
   {d:"2026-02-28", h:"10 رمضان 1447", fajr:"5:25 ص", sunrise:"6:39 ص", dhuhr:"12:33 م", asr:"3:51 م", maghrib:"6:22 م", isha:"7:36 م"},
 
-  // ====== مارس 2026 ======
   {d:"2026-03-01", h:"11 رمضان 1447", fajr:"5:24 ص", sunrise:"6:38 ص", dhuhr:"12:33 م", asr:"3:51 م", maghrib:"6:23 م", isha:"7:37 م"},
   {d:"2026-03-02", h:"12 رمضان 1447", fajr:"5:24 ص", sunrise:"6:37 ص", dhuhr:"12:33 م", asr:"3:52 م", maghrib:"6:23 م", isha:"7:37 م"},
   {d:"2026-03-03", h:"13 رمضان 1447", fajr:"5:23 ص", sunrise:"6:36 ص", dhuhr:"12:33 م", asr:"3:52 م", maghrib:"6:24 م", isha:"7:38 م"},
@@ -483,38 +463,27 @@ const TABLE = [
 
 const BY_DATE = Object.fromEntries(TABLE.map(x => [x.d, x]));
 
-/* ===== Helpers ===== */
 const AR_DAYS = ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 const AR_MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
 
 function pad(n){ return String(n).padStart(2,"0"); }
-
-function ymd(d){
-  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-}
+function ymd(d){ return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
 
 function parseArabicTimeToMinutes(t){
-  // "5:42 ص" or "12:34 م"
   const s = (t||"").trim();
   const m = s.match(/^(\d{1,2}):(\d{2})\s*(ص|م)$/);
   if(!m) return null;
   let hh = parseInt(m[1],10);
   const mm = parseInt(m[2],10);
   const ap = m[3];
-  if(ap === "ص"){
-    if(hh === 12) hh = 0;
-  }else{
-    if(hh !== 12) hh += 12;
-  }
+  if(ap === "ص"){ if(hh === 12) hh = 0; }
+  else { if(hh !== 12) hh += 12; }
   return hh*60 + mm;
 }
-
 function minutesToHHMM(min){
-  const hh = Math.floor(min/60);
-  const mm = min%60;
+  const hh = Math.floor(min/60), mm = min%60;
   return `${pad(hh)}:${pad(mm)}`;
 }
-
 function formatClock(d){
   let h = d.getHours();
   const m = d.getMinutes();
@@ -522,7 +491,6 @@ function formatClock(d){
   h = h%12; if(h===0) h=12;
   return {time:`${h}:${pad(m)}`, ap};
 }
-
 function formatCountdown(ms){
   ms = Math.max(0, ms);
   const s = Math.floor(ms/1000);
@@ -531,99 +499,101 @@ function formatCountdown(ms){
   const ss = s%60;
   return `${pad(hh)}:${pad(mm)}:${pad(ss)}`;
 }
-
 function getRamadanDayFromHijri(h){
-  // مثال: "10 رمضان 1447" -> 10
-  if(!h) return null;
-  const m = h.match(/^(\d{1,2})\s+رمضان\b/);
-  if(m) return parseInt(m[1],10);
-  return null;
+  const m = (h||"").match(/^(\d{1,2})\s+رمضان\b/);
+  return m ? parseInt(m[1],10) : null;
 }
-
 function setText(id, val){
   const el = document.getElementById(id);
   if(el) el.textContent = val;
 }
 
-/* ===== Main Update ===== */
+/* ✅ Auto-fit scale (يمنع القص في Pickcel/Android) */
+function applyAutoFit(){
+  const root = document.getElementById("fitRoot");
+  const app = document.getElementById("app");
+
+  // شد/رخّص بالستايل حسب قصر الشاشة
+  if(window.innerHeight < 820 || window.innerWidth < 1400){
+    app.classList.add("tight");
+  }else{
+    app.classList.remove("tight");
+  }
+
+  // بعد ما تتغير المتغيرات، احسب الحجم الحقيقي واعمِل scale
+  requestAnimationFrame(() => {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    // المقاس الداخلي الحقيقي
+    const rect = root.getBoundingClientRect();
+    // rect هنا بعد scale القديم، فبدنا نرجع scale لـ 1 مؤقتاً
+    root.style.transform = "scale(1)";
+    const r2 = root.getBoundingClientRect();
+
+    const scaleW = vw / r2.width;
+    const scaleH = vh / r2.height;
+    const scale = Math.min(scaleW, scaleH, 1); // ما نكبّر، فقط نصغّر عند الحاجة
+
+    root.style.transform = `scale(${scale})`;
+  });
+}
+
 function updateAll(){
   const now = new Date();
 
-  // Clock
   const c = formatClock(now);
   setText("clockTime", c.time);
   setText("clockAmPm", c.ap);
 
-  // Get today's record (by Sharjah fixed table)
   const key = ymd(now);
   const rec = BY_DATE[key];
 
-  // Date row
   const dayName = AR_DAYS[now.getDay()];
   const monthName = AR_MONTHS[now.getMonth()];
-  const dateLine = `${dayName}، ${now.getDate()} ${monthName} ${now.getFullYear()} | ${rec ? rec.h : "--"}`;
-  setText("dateText", dateLine);
+  setText("dateText", `${dayName}، ${now.getDate()} ${monthName} ${now.getFullYear()} | ${rec ? rec.h : "--"}`);
 
-  // Badge
   if(rec){
     const rDay = getRamadanDayFromHijri(rec.h);
-    if(rDay){
-      setText("ramadanBadge", `اليوم ${rDay} من رمضان`);
-    }else{
-      setText("ramadanBadge", "رمضان");
-    }
-  }else{
-    setText("ramadanBadge", "رمضان");
-  }
+    setText("ramadanBadge", rDay ? `اليوم ${rDay} من رمضان` : "رمضان");
 
-  // Fill prayer times
-  if(rec){
     setText("fajr", minutesToHHMM(parseArabicTimeToMinutes(rec.fajr)));
     setText("sunrise", minutesToHHMM(parseArabicTimeToMinutes(rec.sunrise)));
     setText("dhuhr", minutesToHHMM(parseArabicTimeToMinutes(rec.dhuhr)));
     setText("asr", minutesToHHMM(parseArabicTimeToMinutes(rec.asr)));
     setText("maghrib", minutesToHHMM(parseArabicTimeToMinutes(rec.maghrib)));
     setText("isha", minutesToHHMM(parseArabicTimeToMinutes(rec.isha)));
-  }
 
-  // Counters
-  if(rec){
     const nowMin = now.getHours()*60 + now.getMinutes();
-
     const times = [
-      {name:"الفجر", key:"fajr", min: parseArabicTimeToMinutes(rec.fajr)},
-      {name:"الشروق", key:"sunrise", min: parseArabicTimeToMinutes(rec.sunrise)},
-      {name:"الظهر", key:"dhuhr", min: parseArabicTimeToMinutes(rec.dhuhr)},
-      {name:"العصر", key:"asr", min: parseArabicTimeToMinutes(rec.asr)},
-      {name:"المغرب", key:"maghrib", min: parseArabicTimeToMinutes(rec.maghrib)},
-      {name:"العشاء", key:"isha", min: parseArabicTimeToMinutes(rec.isha)},
+      {name:"الفجر", min: parseArabicTimeToMinutes(rec.fajr)},
+      {name:"الشروق", min: parseArabicTimeToMinutes(rec.sunrise)},
+      {name:"الظهر", min: parseArabicTimeToMinutes(rec.dhuhr)},
+      {name:"العصر", min: parseArabicTimeToMinutes(rec.asr)},
+      {name:"المغرب", min: parseArabicTimeToMinutes(rec.maghrib)},
+      {name:"العشاء", min: parseArabicTimeToMinutes(rec.isha)},
     ].filter(x => x.min !== null).sort((a,b)=>a.min-b.min);
 
-    // Next prayer: first time after now, otherwise next day's fajr
     let next = times.find(x => x.min > nowMin);
     let nextDate = key;
 
     if(!next){
-      // next day fajr if exists
-      const tomorrow = new Date(now);
-      tomorrow.setDate(tomorrow.getDate()+1);
-      const k2 = ymd(tomorrow);
+      const t = new Date(now); t.setDate(t.getDate()+1);
+      const k2 = ymd(t);
       const rec2 = BY_DATE[k2];
       if(rec2){
-        next = {name:"الفجر", key:"fajr", min: parseArabicTimeToMinutes(rec2.fajr)};
+        next = {name:"الفجر", min: parseArabicTimeToMinutes(rec2.fajr)};
         nextDate = k2;
       }else{
-        next = {name:"--", key:"--", min: null};
+        next = {name:"--", min: null};
       }
     }
 
-    // Countdown to next prayer
     if(next.min !== null){
       const target = new Date(now);
-      if(nextDate !== key){
-        target.setDate(target.getDate()+1);
-      }
+      if(nextDate !== key) target.setDate(target.getDate()+1);
       target.setHours(Math.floor(next.min/60), next.min%60, 0, 0);
+
       setText("nextMeta", `${next.name} - الوقت: ${minutesToHHMM(next.min)}`);
       setText("nextCount", formatCountdown(target - now));
     }else{
@@ -631,22 +601,19 @@ function updateAll(){
       setText("nextCount", "--:--:--");
     }
 
-    // Iftar (Maghrib) countdown
     const magMin = parseArabicTimeToMinutes(rec.maghrib);
     if(magMin !== null){
       let iftarTarget = new Date(now);
       iftarTarget.setHours(Math.floor(magMin/60), magMin%60, 0, 0);
 
-      // لو تعدّى المغرب: نحسب لمغرب اليوم التالي
       if(nowMin >= magMin){
-        const tomorrow = new Date(now);
-        tomorrow.setDate(tomorrow.getDate()+1);
-        const k2 = ymd(tomorrow);
+        const t = new Date(now); t.setDate(t.getDate()+1);
+        const k2 = ymd(t);
         const rec2 = BY_DATE[k2];
         if(rec2){
           const mag2 = parseArabicTimeToMinutes(rec2.maghrib);
           if(mag2 !== null){
-            iftarTarget = new Date(tomorrow);
+            iftarTarget = new Date(t);
             iftarTarget.setHours(Math.floor(mag2/60), mag2%60, 0, 0);
             setText("iftarMeta", `وقت المغرب: ${minutesToHHMM(mag2)}`);
           }else{
@@ -664,28 +631,16 @@ function updateAll(){
       setText("iftarMeta", "--");
       setText("iftarCount", "--:--:--");
     }
-  }else{
-    setText("nextMeta","--");
-    setText("nextCount","--:--:--");
-    setText("iftarMeta","--");
-    setText("iftarCount","--:--:--");
   }
 }
 
-/* تشغيل مستمر */
+/* تشغيل */
+applyAutoFit();
 updateAll();
-setInterval(updateAll, 1000);
 
-/* خيار إضافي: لو حبيتي نسخة أضيق، افتحي بالرابط ?v=ultra
-   مثال: https://.../kalimat-signage/?v=ultra
-*/
-(function(){
-  const qs = new URLSearchParams(location.search);
-  const v = (qs.get("v")||"").toLowerCase();
-  if(v.includes("ultra")){
-    document.getElementById("app").classList.add("ultra-compact");
-  }
-})();
+setInterval(updateAll, 1000);
+window.addEventListener("resize", applyAutoFit);
+window.addEventListener("orientationchange", applyAutoFit);
 </script>
 
 </body>
